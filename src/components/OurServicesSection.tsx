@@ -69,7 +69,8 @@ export default function OurServicesSection() {
         </svg>
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 lg:px-28 ">
+      {/* Container flexível substituído por w-full e padding responsivo (incluindo o lg:px-28) */}
+      <div className="w-full px-6 md:px-16 lg:px-28">
         <div
           className="text-center max-w-2xl mx-auto mb-14 space-y-4"
           data-aos="fade-up"
@@ -87,11 +88,11 @@ export default function OurServicesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
           {services.map((service) => (
             <div
               key={service.id}
-              className="relative group h-[480px] rounded-3xl overflow-hidden shadow-md flex flex-col justify-between p-6 bg-slate-900 transition-all duration-300 hover:-translate-y-1"
+              className="relative group h-[480px] rounded-3xl overflow-hidden shadow-md flex flex-col justify-between p-6 bg-slate-900 transition-all duration-300 hover:-translate-y-1 w-full"
               data-aos="fade-up"
               data-aos-delay={service.id * 100}
             >
@@ -102,7 +103,7 @@ export default function OurServicesSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/30 transition-opacity duration-500 group-hover:opacity-0" />
 
-              <div className="relative z-10 space-y-4 transition-opacity duration-300 group-hover:opacity-0 group-hover:pointer-events-none ">
+              <div className="relative z-10 space-y-4 transition-opacity duration-300 group-hover:opacity-0 group-hover:pointer-events-none">
                 <h3 className="font-poppins lg:text-[24px] text-2xl font-bold text-white tracking-tight">
                   {service.title}
                 </h3>

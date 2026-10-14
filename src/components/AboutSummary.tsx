@@ -31,13 +31,17 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
   about: {
     title: (
       <>
-        Inovação e <br />
-        excelência no <br />
-        nosso DNA.
+        Somos o parceiro
+        <br /> tecnológico da
+        <br /> sua empresa.
       </>
     ),
-    paragraphs: ["Texto da página sobre...", "Segundo parágrafo..."],
-    imageSrc: "/about-img.png",
+    paragraphs: [
+      "Somos uma empresa angolana de tecnologia e serviços, dedicada a ajudar organizações a construir, gerir e proteger os seus ambientes tecnológicos.",
+      "Atuamos em diferentes áreas das tecnologias de informação, desde a infraestrutura e os serviços cloud até ao suporte técnico, à monitorização e à cibersegurança..",
+      "Mais do que implementar soluções, procuramos compreender os desafios de cada empresa, identificar oportunidades de melhoria e disponibilizar o suporte necessário para manter as operações a funcionar.",
+    ],
+    imageSrc: "/2.jpg",
     imageAlt: "Equipe de desenvolvimento",
   },
   services: {

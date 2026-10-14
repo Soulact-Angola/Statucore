@@ -29,12 +29,10 @@ export default function DefaultLayout() {
     <div className="min-h-screen flex flex-col bg-[#FFFFFF] ">
       <Header />
 
-      {/* Conteúdo Dinâmico da Rota Atual */}
       <main className="flex-grow">
         <Outlet />
       </main>
 
-      {/* Footer Global */}
       <Footer />
     </div>
   );

@@ -1,7 +1,11 @@
 import AboutSummary from "../components/AboutSummary";
+import Button from "../components/Button";
+import CtaBanner from "../components/CtaBanner";
 import FeatureCards from "../components/FeatureCard";
+import HeroBanner from "../components/HeroBanner";
 import OurServicesSection from "../components/OurServicesSection";
 import ServiceFeatureBlock from "../components/ServiceFeatureBlock";
+import TargetAudienceSection from "../components/TargetAudienceSection";
 
 export default function Home() {
   const mspBenefits = [
@@ -28,38 +32,17 @@ export default function Home() {
   ];
   return (
     <>
-      <section className="relative w-full h-[85vh] min-h-[550px] max-h-[800px] flex items-center overflow-hidden bg-slate-950">
-        <img
-          src="/home.png"
-          alt="Tecnologia e Serviços"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-
-        <div className="absolute inset-0 bg-slate-950/45 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-blue-950/30" />
-
-        <div className="relative z-10 container mx-auto  px-6 md:px-12 lg:px-28">
-          <div className="max-w-xl space-y-6" data-aos="fade-up">
-            <h1 className="font-poppins text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] tracking-tight">
-              Tecnologia &amp; <br />
-              Serviços
-            </h1>
-
-            <p className="font-inter text-slate-200 text-lg sm:text-xl font-normal tracking-wide">
-              O núcleo da sua operação tecnológica
-            </p>
-
-            <div className="pt-2">
-              <button
-                type="button"
-                className="font-inter inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium text-base px-7 py-3.5 rounded-full transition-all duration-200 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 cursor-pointer"
-              >
-                Falar com um especialista
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroBanner
+        title={
+          <>
+            Tecnologia &amp; <br />
+            Serviços
+          </>
+        }
+        subtitle="O núcleo da sua operação tecnológica"
+        imageSrc="/home.png"
+        buttons={[{ title: "Falar com um especialista", href: "/contact" }]}
+      />
 
       <AboutSummary variant="home" />
 
@@ -73,13 +56,12 @@ export default function Home() {
 
       <OurServicesSection />
 
-      <section className="w-full bg-white py-16">
-        {/* Bloco 1: Serviços Geridos / MSP */}
+      <section className="w-full bg-white ">
         <ServiceFeatureBlock
           sectionTitle="Serviços geridos / MSP"
           heading="A sua equipa cuida do negócio. Nós cuidamos da tecnologia."
           description="Assumimos a gestão completa e proativa da sua infraestrutura e dos seus serviços de TI, garantindo alta disponibilidade, manutenção e suporte ininterruptos."
-          imageSrc="/1.png"
+          imageSrc="/servicosgeridos.png"
           imageAlt="Equipa de TI a monitorizar sistemas"
           imagePosition="right"
           benefitsTitle="Benefícios"
@@ -87,11 +69,11 @@ export default function Home() {
           ctaText="Quero gerir melhor a minha TI"
         />
 
-        {/* Bloco 2: Monitorização 24/7 (Com imagem invertida à esquerda) */}
         <ServiceFeatureBlock
+          sectionTitle="Monitorização 24/7"
           heading="Os seus sistemas não param. O nosso acompanhamento também não."
           description="Garantimos a gestão próxima da sua infraestrutura e dos seus serviços de TI, assegurando alta disponibilidade, manutenção e suporte especializado."
-          imageSrc="/1.png"
+          imageSrc="/monitorizar.png"
           imageAlt="Monitorização de servidores"
           imagePosition="left"
           benefitsTitle="Pequenos destaques"
@@ -112,6 +94,113 @@ export default function Home() {
             },
           ]}
         />
+
+        <ServiceFeatureBlock
+          sectionTitle="Helpdesk corporativo"
+          heading="Quando a tecnologia falha, a sua equipa não precisa de parar."
+          description="Centralizamos pedidos, incidentes e suporte técnico num único ponto de contacto, proporcionando mais rapidez, organização e visibilidade."
+          imageSrc="/helpdesk.png"
+          imageAlt="Monitorização de servidores"
+          imagePosition="right"
+          benefitsTitle="Benefícios"
+          ctaText="Falar com a equipa de suporte"
+          benefitsList={[
+            {
+              title: "Registo e acompanhamento de chamados",
+            },
+            {
+              title: "Gestão de incidentes",
+            },
+            {
+              title: "Priorização de solicitações",
+            },
+            {
+              title: "Histórico de atendimento",
+            },
+            {
+              title: "Relatórios de suporte",
+            },
+            {
+              title: "Atendimento remoto e presencial",
+            },
+          ]}
+        />
+
+        <ServiceFeatureBlock
+          sectionTitle="Outsourcing IT"
+          heading="A experiência técnica que a sua empresa precisa, sem aumentar a estrutura interna."
+          description="Disponibilizamos profissionais e equipas especializadas para apoiar a sua operação de TI, de forma flexível e alinhada às necessidades do seu negócio."
+          imageSrc="/Outsourcing.png"
+          imageAlt="Outsourcing IT"
+          imagePosition="left"
+          benefitsTitle="Destaques"
+          benefitsList={[
+            {
+              title: "Especialistas quando precisa",
+              description:
+                "Acesso a competências técnicas específicas sem processos complexos de contratação.",
+            },
+            {
+              title: "Flexibilidade",
+              description:
+                "Modelos de colaboração adaptados à dimensão e às necessidades da sua empresa.",
+            },
+            {
+              title: "Mais eficiência",
+              description:
+                "Reduza a carga operacional da sua equipa e concentre recursos no que gera valor.",
+            },
+          ]}
+        />
+      </section>
+
+      <TargetAudienceSection />
+
+      <CtaBanner
+        title={
+          <>
+            A segurança não pode ser <br />
+            uma preocupação para depois.
+          </>
+        }
+        description="Ameaças digitais podem comprometer dados, sistemas e operações. Ajudamos a sua empresa a reduzir riscos e a construir uma infraestrutura mais protegida."
+        imageSrc="/seguranca-bg.png" // Substitui pelo caminho da tua imagem
+        imageAlt="Segurança de TI"
+        buttonText="Proteger a minha empresa"
+        buttonHref="/contact"
+      />
+
+      <section
+        className="w-full py-20 md:py-28 bg-[#EBEFF7] text-center"
+        data-aos="fade-up"
+      >
+        <div className="mx-auto px-6 md:px-12 space-y-6 m-0">
+          <h2
+            style={{ lineHeight: "1.2" }}
+            className="lg:max-w-[1079px] text-3xl sm:text-4xl md:text-5xl lg:text-[72px] font-semibold text-[#000211] leading-tight tracking-tight m-0 mx-auto pb-[24px]"
+          >
+            A tecnologia da sua empresa está preparada para o próximo desafio?
+          </h2>
+
+          {/* Descrição */}
+          <p
+            style={{ lineHeight: "1.2" }}
+            className="font-medium  text-[#434343] text-sm md:text-base lg:text-[24px] lg:max-w-[627px]  mx-auto leading-relaxed m-0 pb-[32px]"
+          >
+            Fale com a nossa equipa. Vamos entender as suas necessidades e
+            encontrar a solução mais adequada para o seu negócio.
+          </p>
+
+          {/* Contentor dos Botões */}
+          <div className="pt-4 flex flex-wrap justify-center gap-4 items-center m-0">
+            <Button title="Falar com um especialista" href="/contact" />
+            <Button
+              title="Conhecer os nossos serviços"
+              href="/servicos"
+              className="bg-blue-600 hover:bg-blue-700" // Podes ajustar classes adicionais se necessário
+            />
+          </div>
+        </div>
       </section>
     </>
   );

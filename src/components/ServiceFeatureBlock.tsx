@@ -1,8 +1,6 @@
-import React from "react";
-
 interface BenefitItem {
   title: string;
-  description: string;
+  description?: string;
 }
 
 interface ServiceFeatureBlockProps {
@@ -31,7 +29,8 @@ export default function ServiceFeatureBlock({
   ctaHref = "#",
 }: ServiceFeatureBlockProps) {
   return (
-    <section className="w-full py-16 md:py-24 bg-white">
+    <section className="w-full py-16 md:py-24 bg-white" data-aos="fade-up">
+      {/* Bloco Superior (Com limite de largura e padding lateral) */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-20">
         {/* Título Principal da Secção (Opcional) */}
         {sectionTitle && (
@@ -42,24 +41,36 @@ export default function ServiceFeatureBlock({
           </div>
         )}
 
-        {/* Bloco Superior: Grelha com gap exato de 22px */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-[22px] items-center">
-          {/* Se imagePosition for 'left', a imagem aparece primeiro e alinhada à direita */}
-          {imagePosition === "left" && (
-            <div className="lg:col-span-6 flex lg:justify-end">
-              <div className="relative rounded-3xl overflow-hidden shadow-xl w-full max-w-[480px] aspect-square m-0">
-                <img
-                  src={imageSrc}
-                  alt={imageAlt}
-                  className="w-full h-full object-cover block m-0"
-                />
-              </div>
+        {/* Bloco Superior: Texto e imagem com gap exato de 22px */}
+        <div
+          className={`grid grid-cols-1 gap-y-12 lg:gap-[22px] lg:justify-center items-center ${
+            imagePosition === "left"
+              ? "lg:grid-cols-[480px_413px]"
+              : "lg:grid-cols-[413px_480px]"
+          }`}
+        >
+          {/* Coluna da Imagem */}
+          <div
+            className={`flex ${
+              imagePosition === "left" ? "lg:order-1" : "lg:order-2"
+            }`}
+          >
+            <div className="relative rounded-3xl overflow-hidden shadow-xl w-full max-w-[480px] aspect-square m-0">
+              <img
+                src={imageSrc}
+                alt={imageAlt}
+                className="w-full h-full object-cover block m-0"
+              />
             </div>
-          )}
+          </div>
 
-          {/* Coluna de Texto Superior com margens limpas (0px) */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-4 m-0 p-0">
-            <h3 className="font-poppins text-3xl md:text-4xl lg:text-5xl font-bold text-[#0B1B3D] leading-tight m-0 p-0">
+          {/* Coluna de Texto */}
+          <div
+            className={`flex flex-col justify-center space-y-4 m-0 p-0 lg:max-w-[413px] ${
+              imagePosition === "left" ? "lg:order-2" : "lg:order-1"
+            }`}
+          >
+            <h3 className="text-3xl md:text-4xl lg:text-[48px] font-semibold text-[#002341] leading-tight m-0 p-0">
               {heading}
             </h3>
 
@@ -67,26 +78,23 @@ export default function ServiceFeatureBlock({
               {description}
             </p>
           </div>
-
-          {/* Se imagePosition for 'right' (padrão), FORÇAMOS A DIV PAI a colar a imagem à ESQUERDA */}
-          {imagePosition === "right" && (
-            <div className="lg:col-span-6 flex justify-start">
-              <div className="relative rounded-3xl overflow-hidden shadow-xl w-full max-w-[480px] aspect-square m-0">
-                <img
-                  src={imageSrc}
-                  alt={imageAlt}
-                  className="w-full h-full object-cover block m-0"
-                />
-              </div>
-            </div>
-          )}
         </div>
+      </div>
 
-        {/* Bloco Inferior: Título Benefícios à Esquerda e Lista com borda inferior à Direita */}
-        {benefitsList && benefitsList.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-4">
+      {/* LINHA DE LARGURA TOTAL (De ponta a ponta do ecrã) */}
+      {benefitsList && benefitsList.length > 0 && (
+        <div className="w-full border-b border-[#DFE3E6] my-16 md:my-24" />
+      )}
+
+      {/* Bloco Inferior: Benefícios (Com limite de largura e padding lateral restaurados) */}
+      {benefitsList && benefitsList.length > 0 && (
+        <div
+          className="px-6 md:px-12 lg:px-[112px] max-w-7xl"
+          data-aos="fade-up"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-4">
-              <h3 className="font-poppins text-3xl md:text-4xl font-bold text-[#0B1B3D] m-0">
+              <h3 className="font-geist text-3xl md:text-4xl lg:text-[48px] font-bold text-[#000000] m-0">
                 {benefitsTitle}
               </h3>
             </div>
@@ -96,16 +104,19 @@ export default function ServiceFeatureBlock({
                 {benefitsList.map((item, index) => (
                   <div
                     key={index}
-                    className="flex items-start space-x-5 pb-6 border-b border-slate-100 last:border-none m-0"
+                    className="flex items-start space-x-5 pb-6 mb-[20px] border-b border-[#DFE3E6] w-full lg:max-w-[480px] m-0"
                   >
+                    {/* Círculo com o Número */}
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold mt-0.5">
                       {index + 1}
                     </div>
-                    <div className="space-y-1 m-0">
-                      <h4 className="font-poppins font-bold text-slate-900 text-base m-0">
+
+                    {/* Bloco de Texto */}
+                    <div className="space-y-1 w-full m-0">
+                      <h4 className="font-poppins font-medium text-[#000000] text-base lg:text-[21.9px] m-0">
                         {item.title}
                       </h4>
-                      <p className="font-inter text-slate-500 text-xs md:text-sm leading-relaxed m-0">
+                      <p className="font-poppins text-[#474747] text-xs md:text-sm lg:text-[16px] leading-relaxed m-0">
                         {item.description}
                       </p>
                     </div>
@@ -125,8 +136,8 @@ export default function ServiceFeatureBlock({
               )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

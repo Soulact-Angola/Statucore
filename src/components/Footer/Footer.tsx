@@ -31,8 +31,9 @@ export default function Footer({
   },
 }: FooterProps) {
   return (
-    <footer className="w-full max-w-none rounded-none border-x-0 border-y border-[#A5A5A5] bg-[#000211] px-6 py-16 text-white md:px-12">
-      <div className="max-w-7xl mx-auto space-y-16">
+    <footer className="w-full max-w-none rounded-none border-x-0 border-y border-[#A5A5A5] bg-[#000211] py-16 text-white">
+      {/* Container fluido com espaçamento lateral responsivo */}
+      <div className="w-full px-6 md:px-12 lg:px-28 space-y-16">
         {/* Topo: Grid Principal */}
         <div className="grid grid-cols-1 gap-12">
           {/* Linha Superior: Logo ocupando toda a largura */}
@@ -102,7 +103,7 @@ export default function Footer({
                       fill="#000211"
                     />
                     <path
-                      d="M215.914 32.5858C214.164 32.5858 212.411 32.6221 210.661 32.5767C208.456 32.519 207.673 31.7335 207.609 29.5284C207.564 28.0028 207.597 26.4741 207.603 24.9454C207.606 24.6542 207.646 24.36 207.691 24.0688C207.889 22.8222 208.547 22.1914 209.802 22.0003C210.285 21.9275 210.767 21.9062 211.252 21.9062C214.561 21.9093 217.873 21.9093 221.183 21.9214C221.534 21.9214 221.889 21.9639 222.235 22.0336C223.503 22.2824 224.116 22.8981 224.225 24.354C224.376 26.3588 224.41 28.3758 224.191 30.3807C224.052 31.6667 223.363 32.2946 222.083 32.4978C221.513 32.5888 220.94 32.604 220.367 32.604C218.88 32.607 217.394 32.604 215.908 32.604C215.914 32.5979 215.914 32.5918 215.914 32.5858Z"
+                      d="M215.914 32.5858C214.164 32.5858 212.411 32.6221 210.661 32.5767C208.456 32.519 207.673 31.7335 207.609 29.5284C207.564 28.0028 207.597 26.4741 207.603 24.9454C207.606 24.6542 207.646 24.36 207.691 24.0688C207.889 22.8222 208.547 22.1914 209.802 22.0003C210.285 21.9275 210.767 21.9062 211.252 21.9062C214.561 21.9093 217.873 21.9093 221.183 21.9214C221.534 21.9214 221.889 21.9639 222.235 22.0336C223.503 22.824 224.116 22.8981 224.225 24.354C224.376 26.3588 224.41 28.3758 224.191 30.3807C224.052 31.6667 223.363 32.2946 222.083 32.4978C221.513 32.5888 220.94 32.604 220.367 32.604C218.88 32.607 217.394 32.604 215.908 32.604C215.914 32.5979 215.914 32.5918 215.914 32.5858Z"
                       fill="#000211"
                     />
                   </svg>
@@ -173,7 +174,7 @@ export default function Footer({
             </div>
 
             {/* Linha Inferior - Colunas de Navegação e Serviços */}
-            <div className="grid grid-cols-2 gap-x-8 lg:grid-cols-[max-content_max-content ] lg:gap-x-[100px] ">
+            <div className="grid grid-cols-2 gap-x-8 lg:grid-cols-[max-content_max-content] lg:gap-x-[100px]">
               {/* Navegação */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-white text-base">
