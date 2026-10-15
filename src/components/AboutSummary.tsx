@@ -9,7 +9,13 @@ interface SummaryContentItem {
 }
 
 // Tipagem das chaves/páginas disponíveis (pode adicionar mais conforme criar novas)
-export type SummaryVariant = "home" | "about" | "services";
+export type SummaryVariant =
+  | "home"
+  | "about"
+  | "servicesInfra"
+  | "servicesSupport"
+  | "servicesCloud"
+  | "servicesSecurity";
 
 // Mapeamento dos conteúdos tipado
 const summaryData: Record<SummaryVariant, SummaryContentItem> = {
@@ -44,16 +50,54 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
     imageSrc: "/2.jpg",
     imageAlt: "Equipe de desenvolvimento",
   },
-  services: {
+  servicesInfra: {
     title: (
       <>
-        Soluções sob medida <br />
-        para a sua <br />
-        operação.
+        Cada problema técnico resolvido é um obstáculo a menos para a sua
+        equipa.
       </>
     ),
-    paragraphs: ["Texto da página de serviços...", "Segundo parágrafo..."],
-    imageSrc: "/services-img.png",
+    paragraphs: [
+      "Falhas de acesso, dificuldades com aplicações, problemas de conectividade ou avarias nos equipamentos podem comprometer o ritmo de trabalho.",
+      "Um serviço de suporte estruturado permite registar pedidos, organizar prioridades e acompanhar cada ocorrência de forma consistente",
+    ],
+    imageSrc: "/operacao.png",
+    imageAlt: "Infraestrutura tecnológica",
+  },
+
+  servicesSupport: {
+    title: (
+      <>
+        Cada problema técnico resolvido é um obstáculo a menos para a sua
+        equipa.
+      </>
+    ),
+    paragraphs: [
+      "Falhas de acesso, dificuldades com aplicações, problemas de conectividade ou avarias nos equipamentos podem comprometer o ritmo de trabalho.",
+      "Um serviço de suporte estruturado permite registar pedidos, organizar prioridades e acompanhar cada ocorrência de forma consistente.",
+    ],
+    imageSrc: "/tecnicoUrbano.png",
+    imageAlt: "Infraestrutura tecnológica",
+  },
+
+  servicesCloud: {
+    title: <>A cloud deve adaptar-se à forma como a sua empresa trabalha.</>,
+    paragraphs: [
+      "As ferramentas digitais são fundamentais para a comunicação, a produtividade e a gestão da informação. No entanto, escolher as soluções certas e administrá-las corretamente exige planeamento.",
+      "Apoiamos a sua empresa na implementação, migração e gestão de serviços cloud, considerando as necessidades dos utilizadores, os requisitos de segurança e os objetivos da organização.",
+    ],
+    imageSrc: "/nuvem.png",
+    imageAlt: "Infraestrutura tecnológica",
+  },
+
+  servicesSecurity: {
+    title: <>A segurança da informação começa com as medidas certas.</>,
+    paragraphs: [
+      "Os sistemas, os equipamentos e os dados da sua empresa são recursos essenciais para a continuidade da operação.",
+      "Ameaças digitais, acessos indevidos e configurações inadequadas podem comprometer a informação e afetar o funcionamento dos serviços",
+      "Apoiamos a implementação de medidas de cibersegurança que ajudam a identificar riscos, reforçar a proteção e melhorar o controlo sobre os recursos tecnológicos.",
+    ],
+    imageSrc: "/seguranca.png",
     imageAlt: "Infraestrutura tecnológica",
   },
 };

@@ -3,12 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DefaultLayout from "./layouts/DefaultLayout";
 
 const Home = lazy(() => import("./pages/Home"));
-const Services = lazy(() => import("./pages/Services"));
-const ServiceDetail = lazy(() =>
-  import("./pages/Services").then((module) => ({
-    default: module.ServiceDetail,
-  })),
-);
+const Infrastructure = lazy(() => import("./pages/Infrastructure"));
+const TechnicalSupport = lazy(() => import("./pages/TechnicalSupport"));
+const Cloud = lazy(() => import("./pages/Cloud"));
+const Security = lazy(() => import("./pages/Security"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 
@@ -29,9 +27,13 @@ export default function App() {
         <Routes>
           <Route element={<DefaultLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />}>
-              <Route path=":serviceId" element={<ServiceDetail />} />
-            </Route>
+            <Route
+              path="/services/infrastructure"
+              element={<Infrastructure />}
+            />
+            <Route path="/services/support" element={<TechnicalSupport />} />
+            <Route path="/services/cloud" element={<Cloud />} />
+            <Route path="/services/security" element={<Security />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

@@ -22,7 +22,7 @@ export default function HeroBanner({
   buttons = [],
 }: HeroBannerProps) {
   return (
-    <section className="relative w-full  py-[136px] flex items-center overflow-hidden bg-slate-950">
+    <section className="relative h-200 w-full py-34 flex items-center overflow-hidden bg-slate-950">
       <img
         src={imageSrc}
         alt={imageAlt}
@@ -32,13 +32,13 @@ export default function HeroBanner({
       <div className="absolute inset-0 bg-slate-950/45 mix-blend-multiply" />
       <div className="absolute inset-0 bg-blue-950/30" />
 
-      <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-28">
+      <div className="relative z-10 w-full px-6 md:px-12 lg:px-30.5">
         <div className=" space-y-6" data-aos="fade-up">
-          <h1 className=" font-poppins text-4xl sm:text-5xl md:text-6xl lg:text-[74px] font-bold text-white leading-[1.1] tracking-tight m-0 pb-[16px]">
+          <h1 className="w-full font-poppins text-4xl sm:text-5xl md:text-6xl lg:text-[74px] font-bold text-white leading-[1.1] tracking-tight m-0 pb-4">
             {title}
           </h1>
 
-          <p className="lg:max-w-[1016px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] pb-[48px] font-normal tracking-wide m-0">
+          <p className="w-full text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] pb-12 font-normal tracking-wide m-0">
             {subtitle}
           </p>
 

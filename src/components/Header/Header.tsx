@@ -1,6 +1,13 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  type NavLinkRenderProps,
+} from "react-router-dom";
 
-const navigationLinkClass = ({ isActive }: { isActive: boolean }) =>
+// Tipagem para a função de classe do NavLink
+const navigationLinkClass = ({ isActive }: NavLinkRenderProps) =>
   `relative inline-flex items-center px-3 py-5 text-[15px] font-medium transition-colors after:absolute after:inset-x-3 after:bottom-5 after:h-0.5 after:origin-left after:bg-blue-700 after:transition-transform after:content-[''] ${
     isActive
       ? "text-[#0049E3] after:scale-x-100"
@@ -18,14 +25,98 @@ export default function Header() {
   const location = useLocation();
   const isServicesActive = location.pathname.startsWith("/services");
 
+  // Tipagem do useRef para o elemento HTMLDetailsElement
+  const servicesMenuRef = useRef<HTMLDetailsElement | null>(null);
+  const servicesLabelRef = useRef<HTMLSpanElement | null>(null);
+  const servicesDropdownRef = useRef<HTMLDivElement | null>(null);
+  const servicesItemsRef = useRef<HTMLDivElement | null>(null);
+  const servicesArrowRef = useRef<HTMLSpanElement | null>(null);
+
+  const alignServicesDropdown = () => {
+    const label = servicesLabelRef.current;
+    const dropdown = servicesDropdownRef.current;
+    const items = servicesItemsRef.current;
+    const arrow = servicesArrowRef.current;
+    const firstLink = items?.querySelector("a");
+
+    if (!label || !dropdown || !items || !arrow || !firstLink) {
+      return;
+    }
+
+    items.style.transform = "";
+    const labelRect = label.getBoundingClientRect();
+    const dropdownRect = dropdown.getBoundingClientRect();
+    const linkRect = firstLink.getBoundingClientRect();
+    const linkPadding = Number.parseFloat(
+      getComputedStyle(firstLink).paddingLeft,
+    );
+    const textLeft = linkRect.left + linkPadding;
+    const labelCenter = labelRect.left + labelRect.width / 2;
+
+    items.style.transform = `translateX(${labelRect.left - textLeft}px)`;
+    arrow.style.left = `${labelCenter - dropdownRect.left - 6}px`;
+  };
+
+  // Estado para controlar o scroll
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const closeOnOutsideClick = (event: MouseEvent | PointerEvent) => {
+      if (
+        servicesMenuRef.current &&
+        !servicesMenuRef.current.contains(event.target as Node)
+      ) {
+        servicesMenuRef.current.open = false;
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && servicesMenuRef.current) {
+        servicesMenuRef.current.open = false;
+      }
+    };
+    const alignOnResize = () => {
+      if (servicesMenuRef.current?.open) {
+        alignServicesDropdown();
+      }
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("resize", alignOnResize);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("resize", alignOnResize);
+    };
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-      <div className=" px-28 flex w-full  items-center justify-between min-h-18 py-3 lg:py-0">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out bg-white border-b border-gray-200 ${
+        scrolled ? "shadow-md py-1" : "py-0"
+      }`}
+    >
+      <div
+        className={`px-28 flex w-full items-center justify-between transition-all duration-500 ${
+          scrolled ? "min-h-14 py-2" : "min-h-18 py-3 lg:py-0"
+        }`}
+      >
         <div className="flex items-center gap-x-22">
           <Link
             to="/"
             aria-label="StatuCore, início"
-            className="flex h-9 w-46.75 shrink-0 items-center"
+            className="flex items-center"
           >
             <svg
               width="187"
@@ -101,7 +192,16 @@ export default function Header() {
                 </NavLink>
               </li>
               <li>
-                <details className="group relative">
+                {/* Alterado para static para servir de referência para o absolute do dropdown centralizado */}
+                <details
+                  ref={servicesMenuRef}
+                  className="group static"
+                  onToggle={() => {
+                    if (servicesMenuRef.current?.open) {
+                      window.requestAnimationFrame(alignServicesDropdown);
+                    }
+                  }}
+                >
                   <summary
                     className={`relative flex cursor-pointer list-none items-center gap-2 px-3 py-5 text-[15px] font-medium transition-colors after:absolute after:inset-x-3 after:bottom-5 after:h-0.5 after:origin-left after:bg-blue-700 after:transition-transform after:content-[''] ${
                       isServicesActive
@@ -109,34 +209,48 @@ export default function Header() {
                         : "text-[#010F21] after:scale-x-0 hover:text-[#0049E3] hover:after:scale-x-100"
                     }`}
                   >
-                    Serviços
+                    <span ref={servicesLabelRef}>Serviços</span>
                     <span
                       aria-hidden="true"
                       className="size-1.5 -translate-y-0.5 rotate-45 border-b border-r border-current"
                     />
                   </summary>
-                  <div className="absolute left-0 top-full z-20 min-w-52 rounded border border-gray-200 bg-white py-1 shadow-lg">
-                    <Link
-                      to="/services"
-                      className="block px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+
+                  {/* Dropdown centralizado em relação à barra de navegação/cabeçalho */}
+                  <div
+                    ref={servicesDropdownRef}
+                    className="absolute left-1/2 -translate-x-1/2 top-full z-20 mt-3 w-[90vw] max-w-none border-t border-b border-gray-200 bg-white py-6 px-4 shadow-lg ring-1 ring-black/5"
+                  >
+                    <span
+                      ref={servicesArrowRef}
+                      aria-hidden="true"
+                      className="absolute -top-1.5 size-3 rotate-45 border-l border-t border-gray-200 bg-white"
+                    />
+                    <div
+                      ref={servicesItemsRef}
+                      className="flex flex-col items-start gap-3"
                     >
-                      Todos os serviços
-                    </Link>
-                    {services.map((service) => (
-                      <NavLink
-                        key={service.path}
-                        to={service.path}
-                        className={({ isActive }) =>
-                          `block px-4 py-2 text-sm ${
-                            isActive
-                              ? "bg-[#E3E2E2] text-[#010822]"
-                              : "text-gray-700 hover:bg-gray-50"
-                          }`
-                        }
-                      >
-                        {service.label}
-                      </NavLink>
-                    ))}
+                      {services.map((service) => (
+                        <NavLink
+                          key={service.path}
+                          to={service.path}
+                          onClick={() => {
+                            if (servicesMenuRef.current) {
+                              servicesMenuRef.current.open = false;
+                            }
+                          }}
+                          className={({ isActive }: NavLinkRenderProps) =>
+                            `block rounded-md px-3 py-2 text-[15px] font-medium transition-colors ${
+                              isActive
+                                ? "bg-gray-100 text-[#0049E3]"
+                                : "text-gray-700 hover:bg-gray-50 hover:text-[#0049E3]"
+                            }`
+                          }
+                        >
+                          {service.label}
+                        </NavLink>
+                      ))}
+                    </div>
                   </div>
                 </details>
               </li>
@@ -154,7 +268,7 @@ export default function Header() {
           </nav>
         </div>
 
-        {/* Bloco direito: Idioma e Botão de Contato */}
+        {/* Bloco direito mantido */}
         <div className="flex items-center gap-5">
           <span
             aria-label="Idioma: português"
@@ -173,6 +287,7 @@ export default function Header() {
             </svg>
             PT
           </span>
+
           <Link
             to="/contact"
             className="rounded-full bg-blue-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-800"

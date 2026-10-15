@@ -1,7 +1,10 @@
 import AboutSummary from "../components/AboutSummary";
 import type { CardItem } from "../components/CardSlider";
 import CardSlider from "../components/CardSlider";
+import { ContactSection } from "../components/ContactSection";
+import CtaBanner from "../components/CtaBanner";
 import FeatureCards from "../components/FeatureCard";
+import { FeatureSection } from "../components/FeatureSection";
 import HeroBanner from "../components/HeroBanner";
 import ImageTextFeature from "../components/ImageTextFeature";
 import OurApproach from "../components/OurApproach";
@@ -24,10 +27,55 @@ export default function About() {
     },
     {
       id: 3,
-      title: "Bancário", // Exemplo sem descrição (opcional)
+      title: "Suporte técnico e Helpdesk",
+      description:
+        "Apoiamos os utilizadores e ajudamos a resolver incidentes para que as equipas possam trabalhar com menos obstáculos.",
       imageSrc: "tec.jpg",
     },
   ];
+
+  const dataSetor: CardItem[] = [
+    {
+      id: 1,
+      title: "Bancário",
+
+      imageSrc: "tec.jpg",
+    },
+    {
+      id: 2,
+      title: "Saúde",
+      imageSrc: "tec.jpg",
+    },
+    {
+      id: 3,
+      title: "Educação",
+      imageSrc: "tec.jpg",
+    },
+  ];
+
+  const diferencialItems = [
+    {
+      title: "Uma visão integrada de TI",
+      description:
+        "Relacionamos infraestrutura, cloud, segurança e suporte para responder aos desafios tecnológicos de forma coordenada.",
+    },
+    {
+      title: "Acompanhamento contínuo",
+      description:
+        "Valorizamos a prevenção, a monitorização e a manutenção para ajudar a reduzir falhas e interrupções.",
+    },
+    {
+      title: "Soluções ajustadas à realidade de cada empresa",
+      description:
+        "Consideramos as necessidades, os recursos e os objetivos de cada organização antes de recomendar uma solução.",
+    },
+    {
+      title: "Relações de longo prazo",
+      description:
+        "Procuramos ser um parceiro em quem os clientes podem confiar, tanto na resolução dos desafios atuais como na preparação dos próximos passos.",
+    },
+  ];
+
   return (
     <>
       <HeroBanner
@@ -89,6 +137,33 @@ export default function About() {
       <OurApproach
         imageSrc="/abordagem.png"
         // Opcional: Você pode passar títulos customizados se quiser, ou deixar os padrões
+      />
+      <CardSlider items={dataSetor} autoPlayInterval={5000} />;
+      <FeatureSection
+        title="O Nosso Diferencial"
+        subtitle="Tecnologia com propósito. Serviço com responsabilidade."
+        imageSrc="/nossodiferencial.png"
+        items={diferencialItems}
+      />
+      <CtaBanner
+        title={
+          <>
+            O seu negócio tem objetivos. Nós ajudamos a tecnologia a
+            acompanhá-los.
+          </>
+        }
+        description="Conte-nos quais são os seus desafios tecnológicos. A nossa equipa está disponível para conversar consigo e explorar soluções adequadas à sua empresa."
+        imageSrc="/reuniao.png"
+        imageAlt="Segurança de TI"
+        buttonText="Fale com a nossa equipe"
+        buttonHref="/contact"
+      />
+      <ContactSection
+        title="Conte-nos o que a sua empresa precisa."
+        imageSrc="/profissional.png"
+        onSubmit={(data) => {
+          console.log("Dados do formulário:", data);
+        }}
       />
     </>
   );
