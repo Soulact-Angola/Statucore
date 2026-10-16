@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export interface ContactSectionProps {
   title?: string;
@@ -25,6 +26,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   ],
   onSubmit,
 }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     nome: "",
     empresa: "",
@@ -66,7 +68,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         {/* Título Principal */}
         <div className="mb-12">
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#0a0f1d] max-w-xl leading-tight">
-            {title}
+            {t(title)}
           </h2>
         </div>
 
@@ -77,7 +79,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             <div className="w-full h-[400px] sm:h-[480px] lg:h-auto lg:flex-1 rounded-2xl overflow-hidden shadow-sm">
               <img
                 src={imageSrc}
-                alt={imageAlt}
+                alt={t(imageAlt)}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -89,7 +91,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               {/* Nome */}
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Nome
+                  {t("Nome")}
                 </label>
                 <input
                   type="text"
@@ -104,7 +106,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               {/* Empresa */}
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Empresa
+                  {t("Empresa")}
                 </label>
                 <input
                   type="text"
@@ -118,7 +120,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               {/* Email Corporativo */}
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Email corporativo
+                  {t("Email corporativo")}
                 </label>
                 <input
                   type="email"
@@ -134,7 +136,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               <div className="grid grid-cols-12 gap-3">
                 <div className="col-span-4 sm:col-span-3">
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    DDI
+                    {t("DDI")}
                   </label>
                   <input
                     type="text"
@@ -146,7 +148,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 </div>
                 <div className="col-span-8 sm:col-span-9">
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Telefone
+                    {t("Telefone")}
                   </label>
                   <input
                     type="tel"
@@ -162,7 +164,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               {/* Serviço de interesse (Com suporte ao menu flutuante demonstrado na imagem auxiliar) */}
               <div className="relative">
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Serviço de interesse
+                  {t("Serviço de interesse")}
                 </label>
                 <div
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -175,7 +177,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                         : "text-gray-400"
                     }
                   >
-                    {formData.servicoInteresse || "Selecione um serviço"}
+                    {formData.servicoInteresse
+                      ? t(formData.servicoInteresse)
+                      : t("Selecione um serviço")}
                   </span>
                   <svg
                     className={`w-4 h-4 text-gray-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
@@ -211,7 +215,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                             : "text-gray-700 hover:bg-gray-50"
                         }`}
                       >
-                        {option}
+                        {t(option)}
                       </div>
                     ))}
                   </div>
@@ -221,7 +225,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               {/* Mensagem */}
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Mensagem
+                  {t("Mensagem")}
                 </label>
                 <textarea
                   name="mensagem"
@@ -247,14 +251,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   htmlFor="privacidade"
                   className="text-xs text-gray-500 leading-normal select-none"
                 >
-                  Gostaria que a Statucore entrasse em contacto comigo com base
-                  nas informações fornecidas acima. Concordo com o processamento
-                  dos meus dados pessoais conforme descrito no{" "}
+                  {t(
+                    "Gostaria que a Statucore entrasse em contacto comigo com base nas informações fornecidas acima. Concordo com o processamento dos meus dados pessoais conforme descrito no",
+                  )}{" "}
                   <a
                     href="#"
                     className="text-blue-600 underline hover:text-blue-800"
                   >
-                    Aviso de Privacidade
+                    {t("Aviso de Privacidade")}
                   </a>
                   .
                 </label>
@@ -266,7 +270,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   type="submit"
                   className="w-full py-3 px-6 bg-[#0047ff] hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                  Enviar pedido
+                  {t("Enviar pedido")}
                 </button>
               </div>
             </form>

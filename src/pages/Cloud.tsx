@@ -87,7 +87,7 @@ export default function Cloud() {
   return (
     <>
       <HeroBanner
-        title={<>Mais flexibilidade para trabalhar.</>}
+        title="Mais flexibilidade para trabalhar."
         subtitle="Ajudamos a sua empresa a adotar e gerir soluções cloud que facilitam a colaboração, simplificam o acesso à informação e apoiam a proteção dos dados."
         imageSrc="/heroCloud.png"
         buttons={[
@@ -121,9 +121,7 @@ export default function Cloud() {
       <FaqSection />
 
       <CtaBanner
-        title={
-          <>Prepare a sua empresa para trabalhar de forma mais conectada.</>
-        }
+        title="Prepare a sua empresa para trabalhar de forma mais conectada."
         description="Fale connosco para identificar as soluções cloud mais adequadas às necessidades do seu negócio."
         imageSrc="/colaboracaoCloud.png"
         imageAlt="Segurança de TI"

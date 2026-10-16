@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 interface ButtonProps {
   title: string;
   href: string;
@@ -5,12 +7,13 @@ interface ButtonProps {
 }
 
 export default function Button({ title, href, className = "" }: ButtonProps) {
+  const { t } = useTranslation();
   return (
     <a
       href={href}
       className={`inline-flex items-center justify-center px-4 py-3 rounded-full bg-[#0049E3] text-white font-bold lg:text-[18px] text-sm hover:bg-blue-700 transition-colors shadow-sm ${className}`}
     >
-      {title}
+      {t(title)}
     </a>
   );
 }

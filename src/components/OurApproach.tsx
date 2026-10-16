@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 export interface ApproachItem {
   number: string | number;
   title: string;
@@ -44,6 +46,7 @@ export default function OurApproach({
   imageSrc,
   imageAlt = "Técnico a trabalhar em infraestrutura de servidores",
 }: OurApproachProps) {
+  const { t } = useTranslation();
   return (
     <section className="w-full py-16 bg-white">
       {/* Container Principal respeitando o layout da página */}
@@ -51,10 +54,10 @@ export default function OurApproach({
         {/* Cabeçalho da Seção */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="font-poppins text-3xl md:text-4xl font-bold text-[#0B1B3D] mb-4">
-            {title}
+            {t(title)}
           </h2>
           <p className="font-inter text-slate-600 text-sm md:text-base leading-relaxed">
-            {subtitle}
+            {t(subtitle)}
           </p>
         </div>
 
@@ -75,10 +78,10 @@ export default function OurApproach({
                 {/* Conteúdo do Passo */}
                 <div>
                   <h3 className="font-poppins text-lg md:text-xl font-bold text-[#0B1B3D] mb-1">
-                    {step.title}
+                    {t(step.title)}
                   </h3>
                   <p className="font-inter text-slate-600 text-sm md:text-base leading-relaxed">
-                    {step.description}
+                    {t(step.description)}
                   </p>
                 </div>
                 <div
@@ -97,7 +100,7 @@ export default function OurApproach({
             >
               <img
                 src={imageSrc}
-                alt={imageAlt}
+                alt={t(imageAlt)}
                 className="w-full h-full object-cover object-top"
               />
             </div>

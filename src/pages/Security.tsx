@@ -88,9 +88,7 @@ export default function Security() {
   return (
     <>
       <HeroBanner
-        title={
-          <>Proteja os seus sistemas. Reforce a confiança no seu negócio.</>
-        }
+        title="Proteja os seus sistemas. Reforce a confiança no seu negócio."
         subtitle="Ajudamos a sua empresa a reduzir riscos digitais através de soluções de proteção, controlo de acessos e avaliação de segurança adaptadas ao seu ambiente tecnológico."
         imageSrc="/heroseguranca.png"
         buttons={[
@@ -124,7 +122,7 @@ export default function Security() {
       <FaqSection />
 
       <CtaBanner
-        title={<>A proteção do seu negócio começa com uma avaliação.</>}
+        title="A proteção do seu negócio começa com uma avaliação."
         description="Converse com a nossa equipa para compreender os riscos do seu ambiente tecnológico e identificar medidas de segurança adequadas"
         imageSrc="/10.png"
         imageAlt="Segurança de TI"

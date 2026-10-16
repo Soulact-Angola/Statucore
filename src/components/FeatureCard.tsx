@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export interface FeatureCardItem {
   id?: string | number;
@@ -163,6 +164,7 @@ export default function FeatureCards({
   variant = "home",
   items,
 }: FeatureCardsProps) {
+  const { t } = useTranslation();
   const cardsList = items || featureData[variant] || featureData.home;
 
   return (
@@ -181,14 +183,14 @@ export default function FeatureCards({
               <div className="mb-5">{card.icon}</div>
 
               <h3 className="font-poppins lg:text-[24px] font-semibold text-[#012120] mb-3 tracking-tight">
-                {card.title}
+                {t(card.title)}
               </h3>
 
               <p
                 style={{ lineHeight: "1.4" }}
                 className="text-[#474747] lg:text-[16px] font-normal text-sm leading-relaxed"
               >
-                {card.description}
+                {t(card.description)}
               </p>
             </div>
           ))}

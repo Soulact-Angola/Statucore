@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export interface BenefitItem {
   number?: string | number;
@@ -15,6 +16,7 @@ export const BenefitsSection: React.FC<BenefitsSectionProps> = ({
   title,
   items,
 }) => {
+  const { t } = useTranslation();
   return (
     <section
       className="w-full bg-white border-t border-[#DFE3E6] px-6 py-16 md:px-12 lg:px-28 md:py-24 text-[#0f172a]"
@@ -25,7 +27,7 @@ export const BenefitsSection: React.FC<BenefitsSectionProps> = ({
           {/* Coluna da Esquerda: Título Principal */}
           <div>
             <h2 className="text-3xl md:text-4xl xl:text-[48px] font-bold font-geist tracking-tight text-[#000000] sticky top-8">
-              {title}
+              {t(title)}
             </h2>
           </div>
 
@@ -53,10 +55,10 @@ export const BenefitsSection: React.FC<BenefitsSectionProps> = ({
                     }`}
                   >
                     <h3 className="font-poppins text-base xl:text-[21px] font-medium text-[#000000] mb-1">
-                      {item.title}
+                      {t(item.title)}
                     </h3>
                     <p className="font-poppins font-medium text-sm xl:text-[16px] text-[#474747] leading-relaxed xl:max-w-[532px]">
-                      {item.description}
+                      {t(item.description)}
                     </p>
                   </div>
                 </div>

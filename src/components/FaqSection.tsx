@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface FaqItem {
   question: string;
@@ -7,6 +8,7 @@ interface FaqItem {
 }
 
 export const FaqSection: React.FC = () => {
+  const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs: FaqItem[] = [
@@ -45,7 +47,7 @@ export const FaqSection: React.FC = () => {
         {/* Título Principal */}
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-[40px] font-bold font-geist tracking-tight text-[#1C3A4A]">
-            Perguntas frequentes
+            {t("Perguntas frequentes")}
           </h2>
         </div>
 
@@ -64,7 +66,7 @@ export const FaqSection: React.FC = () => {
                   className="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left focus:outline-none cursor-pointer gap-4"
                 >
                   <span className="font-poppins text-sm sm:text-base md:text-lg font-medium text-[#1C3A4A]">
-                    {faq.question}
+                    {t(faq.question)}
                   </span>
 
                   {/* Ícone animado (+ muda para -) */}
@@ -97,7 +99,7 @@ export const FaqSection: React.FC = () => {
                       }}
                     >
                       <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 text-xs sm:text-sm md:text-base font-poppins text-[#1C3A4A] opacity-90 leading-relaxed">
-                        <p>{faq.answer}</p>
+                        <p>{t(faq.answer)}</p>
                       </div>
                     </motion.div>
                   )}

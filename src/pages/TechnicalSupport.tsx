@@ -82,12 +82,7 @@ export default function TechnicalSupport() {
   return (
     <>
       <HeroBanner
-        title={
-          <>
-            A tecnologia deve facilitar o trabalho da sua equipa, não
-            dificultá-lo.
-          </>
-        }
+        title="A tecnologia deve facilitar o trabalho da sua equipa, não dificultá-lo."
         subtitle="Apoiamos a sua empresa na resolução de incidentes e na gestão de pedidos técnicos, com processos organizados para reduzir interrupções e melhorar a experiência dos utilizadores."
         imageSrc="/heroSuporte.png"
         buttons={[
@@ -121,7 +116,7 @@ export default function TechnicalSupport() {
       <FaqSection />
 
       <CtaBanner
-        title={<>A sua equipa precisa de um suporte técnico mais organizado?</>}
+        title="A sua equipa precisa de um suporte técnico mais organizado?"
         description="Vamos conversar sobre as necessidades da sua empresa e encontrar uma abordagem adequada à sua operação."
         imageSrc="/suaequipaTi.png"
         imageAlt="Segurança de TI"

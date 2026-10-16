@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button"; // Importa o teu componente de botão existente
+import { useTranslation } from "react-i18next";
 
 interface CtaBannerProps {
   title: string | React.ReactNode;
@@ -18,6 +19,7 @@ export default function CtaBanner({
   buttonText,
   buttonHref,
 }: CtaBannerProps) {
+  const { t } = useTranslation();
   return (
     <section
       className="relative w-full py-24 md:py-32 flex items-center justify-center overflow-hidden bg-slate-950 text-center"
@@ -26,7 +28,7 @@ export default function CtaBanner({
       {/* Imagem de Fundo */}
       <img
         src={imageSrc}
-        alt={imageAlt}
+        alt={t(imageAlt)}
         className="absolute inset-0 w-full h-full object-cover object-center m-0"
       />
 
@@ -40,18 +42,18 @@ export default function CtaBanner({
           style={{ lineHeight: "1.2" }}
           className=" text-3xl sm:text-4xl md:text-5xl lg:text-[72px] font-semibold text-white leading-tight tracking-tight m-0 pb-[24px] text-center lg:max-w-[1013px]"
         >
-          {title}
+          {typeof title === "string" ? t(title) : title}
         </h2>
 
         <p
           style={{ lineHeight: "1.2" }}
           className="font-inter text-white text-sm md:text-base lg:text-[24px] lg:max-w-[731px] mx-auto leading-relaxed m-0"
         >
-          {description}
+          {t(description)}
         </p>
 
         <div className="pt-4 m-0">
-          <Button title={buttonText} href={buttonHref} />
+          <Button title={t(buttonText)} href={buttonHref} />
         </div>
       </div>
     </section>

@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 export default function OurServicesSection() {
+  const { t } = useTranslation();
   const services = [
     {
       id: 1,
@@ -76,15 +79,15 @@ export default function OurServicesSection() {
           data-aos="fade-up"
         >
           <h2 className="font-poppins text-3xl sm:text-4xl font-bold lg:text-[48px] text-[#000211] tracking-tight">
-            Os nossos serviços
+            {t("Os nossos serviços")}
           </h2>
           <p
             style={{ lineHeight: "1.4" }}
             className="font-normal pt-[24px] mx-auto lg:max-w-[467px] text-[#000211] lg:text-[16px] text-base md:text-lg leading-relaxed"
           >
-            Combinamos infraestrutura, suporte, cloud e segurança para criar um
-            ambiente tecnológico confiável, preparado para as exigências do seu
-            negócio.
+            {t(
+              "Combinamos infraestrutura, suporte, cloud e segurança para criar um ambiente tecnológico confiável, preparado para as exigências do seu negócio.",
+            )}
           </p>
         </div>
 
@@ -98,14 +101,14 @@ export default function OurServicesSection() {
             >
               <img
                 src={service.imageSrc}
-                alt={service.title}
+                alt={t(service.title)}
                 className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 group-hover:opacity-0"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/30 transition-opacity duration-500 group-hover:opacity-0" />
 
               <div className="relative z-10 space-y-4 transition-opacity duration-300 group-hover:opacity-0 group-hover:pointer-events-none">
                 <h3 className="font-poppins lg:text-[24px] text-2xl font-bold text-white tracking-tight">
-                  {service.title}
+                  {t(service.title)}
                 </h3>
 
                 <ul
@@ -115,7 +118,7 @@ export default function OurServicesSection() {
                   {service.itemsList.map((item, idx) => (
                     <li key={idx} className="flex items-center space-x-2">
                       <span className="w-1.5 h-1.5 bg-white rounded-full inline-block" />
-                      <span className="lg:text-[16px]">{item}</span>
+                      <span className="lg:text-[16px]">{t(item)}</span>
                     </li>
                   ))}
                 </ul>
@@ -126,18 +129,18 @@ export default function OurServicesSection() {
               >
                 <div className="space-y-4">
                   <h3 className="font-poppins text-2xl font-bold text-[#0B1B3D] tracking-tight">
-                    {service.title}
+                    {t(service.title)}
                   </h3>
 
                   <p className="font-inter text-slate-700 text-sm leading-relaxed">
-                    {service.description}
+                    {t(service.description)}
                   </p>
 
                   <ul className="space-y-2 font-inter text-slate-800 text-sm">
                     {service.itemsList.map((item, idx) => (
                       <li key={idx} className="flex items-center space-x-2">
                         <span className="w-1.5 h-1.5 bg-[#0B1B3D] rounded-full inline-block" />
-                        <span>{item}</span>
+                        <span>{t(item)}</span>
                       </li>
                     ))}
                   </ul>
@@ -148,7 +151,7 @@ export default function OurServicesSection() {
                     href="#saiba-mais"
                     className="inline-flex items-center text-[#0B1B3D] font-semibold text-sm hover:underline space-x-2"
                   >
-                    <span>Saiba mais</span>
+                    <span>{t("Saiba mais")}</span>
                     <span>→</span>
                   </a>
                 </div>

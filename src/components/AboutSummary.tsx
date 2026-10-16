@@ -1,8 +1,8 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 
 // Tipagem para os dados de cada variação
 interface SummaryContentItem {
-  title: React.ReactNode;
+  title: string;
   paragraphs: string[];
   imageSrc: string;
   imageAlt: string;
@@ -20,13 +20,7 @@ export type SummaryVariant =
 // Mapeamento dos conteúdos tipado
 const summaryData: Record<SummaryVariant, SummaryContentItem> = {
   home: {
-    title: (
-      <>
-        A sua tecnologia. <br />
-        O nosso <br />
-        compromisso.
-      </>
-    ),
+    title: "A sua tecnologia. O nosso compromisso.",
     paragraphs: [
       "Da infraestrutura à cloud, da segurança ao suporte técnico, disponibilizamos soluções pensadas para tornar a tecnologia da sua empresa mais segura, estável e eficiente.",
       "Acompanhamos o seu negócio de forma contínua, identificando problemas antes que eles afetem a sua operação.",
@@ -35,13 +29,7 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
     imageAlt: "Profissionais trabalhando com tecnologia em escritório",
   },
   about: {
-    title: (
-      <>
-        Somos o parceiro
-        <br /> tecnológico da
-        <br /> sua empresa.
-      </>
-    ),
+    title: "Somos o parceiro tecnológico da sua empresa.",
     paragraphs: [
       "Somos uma empresa angolana de tecnologia e serviços, dedicada a ajudar organizações a construir, gerir e proteger os seus ambientes tecnológicos.",
       "Atuamos em diferentes áreas das tecnologias de informação, desde a infraestrutura e os serviços cloud até ao suporte técnico, à monitorização e à cibersegurança..",
@@ -51,12 +39,8 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
     imageAlt: "Equipe de desenvolvimento",
   },
   servicesInfra: {
-    title: (
-      <>
-        Cada problema técnico resolvido é um obstáculo a menos para a sua
-        equipa.
-      </>
-    ),
+    title:
+      "Cada problema técnico resolvido é um obstáculo a menos para a sua equipa.",
     paragraphs: [
       "Falhas de acesso, dificuldades com aplicações, problemas de conectividade ou avarias nos equipamentos podem comprometer o ritmo de trabalho.",
       "Um serviço de suporte estruturado permite registar pedidos, organizar prioridades e acompanhar cada ocorrência de forma consistente",
@@ -66,12 +50,8 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
   },
 
   servicesSupport: {
-    title: (
-      <>
-        Cada problema técnico resolvido é um obstáculo a menos para a sua
-        equipa.
-      </>
-    ),
+    title:
+      "Cada problema técnico resolvido é um obstáculo a menos para a sua equipa.",
     paragraphs: [
       "Falhas de acesso, dificuldades com aplicações, problemas de conectividade ou avarias nos equipamentos podem comprometer o ritmo de trabalho.",
       "Um serviço de suporte estruturado permite registar pedidos, organizar prioridades e acompanhar cada ocorrência de forma consistente.",
@@ -81,7 +61,7 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
   },
 
   servicesCloud: {
-    title: <>A cloud deve adaptar-se à forma como a sua empresa trabalha.</>,
+    title: "A cloud deve adaptar-se à forma como a sua empresa trabalha.",
     paragraphs: [
       "As ferramentas digitais são fundamentais para a comunicação, a produtividade e a gestão da informação. No entanto, escolher as soluções certas e administrá-las corretamente exige planeamento.",
       "Apoiamos a sua empresa na implementação, migração e gestão de serviços cloud, considerando as necessidades dos utilizadores, os requisitos de segurança e os objetivos da organização.",
@@ -91,7 +71,7 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
   },
 
   servicesSecurity: {
-    title: <>A segurança da informação começa com as medidas certas.</>,
+    title: "A segurança da informação começa com as medidas certas.",
     paragraphs: [
       "Os sistemas, os equipamentos e os dados da sua empresa são recursos essenciais para a continuidade da operação.",
       "Ameaças digitais, acessos indevidos e configurações inadequadas podem comprometer a informação e afetar o funcionamento dos serviços",
@@ -107,6 +87,7 @@ interface AboutSummaryProps {
 }
 
 export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
+  const { t } = useTranslation();
   const content = summaryData[variant] || summaryData.home;
 
   return (
@@ -117,7 +98,7 @@ export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
             <div className="relative w-full max-w-lg aspect-[4/3] md:aspect-[1/1] overflow-hidden rounded-3xl shadow-sm">
               <img
                 src={content.imageSrc}
-                alt={content.imageAlt}
+                alt={t(content.imageAlt)}
                 className="w-full h-full object-cover object-center"
               />
             </div>
@@ -125,7 +106,7 @@ export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
 
           <div className="space-y-6 lg:max-w-[413px]">
             <h2 className="text-3xl sm:text-4xl md:text-[2.6rem] lg:text-[48px] font-semibold text-[#002341] leading-[1.15] tracking-tight">
-              {content.title}
+              {t(content.title)}
             </h2>
 
             <div
@@ -133,7 +114,7 @@ export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
               className="space-y-4 font-normal text-[#636364] text-base md:text-lg lg:text-[18px] leading-relaxed"
             >
               {content.paragraphs.map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
+                <p key={index}>{t(paragraph)}</p>
               ))}
             </div>
           </div>

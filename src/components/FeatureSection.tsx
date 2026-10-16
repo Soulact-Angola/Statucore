@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export interface StepItem {
   number?: string | number;
@@ -21,6 +22,7 @@ export const FeatureSection: React.FC<FeatureSectionProps> = ({
   imageAlt = "",
   items,
 }) => {
+  const { t } = useTranslation();
   return (
     <section
       className="relative w-full bg-[#f1f5f9] px-6 py-16 md:px-12 md:py-24 overflow-hidden text-[#0f172a]"
@@ -50,11 +52,11 @@ export const FeatureSection: React.FC<FeatureSectionProps> = ({
         {/* Cabeçalho */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">
-            {title}
+            {t(title)}
           </h2>
           {subtitle && (
             <p className="text-gray-600 text-sm md:text-base font-medium">
-              {subtitle}
+              {t(subtitle)}
             </p>
           )}
         </div>
@@ -66,7 +68,7 @@ export const FeatureSection: React.FC<FeatureSectionProps> = ({
             <div className="w-full h-[320px] sm:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden shadow-sm">
               <img
                 src={imageSrc}
-                alt={imageAlt || title}
+                alt={t(imageAlt || title)}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -89,10 +91,10 @@ export const FeatureSection: React.FC<FeatureSectionProps> = ({
                 {/* Conteúdo do Item */}
                 <div className="flex-1">
                   <h3 className="text-base font-bold text-gray-900 mb-1">
-                    {item.title}
+                    {t(item.title)}
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    {item.description}
+                    {t(item.description)}
                   </p>
                 </div>
               </div>

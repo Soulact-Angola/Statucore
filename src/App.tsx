@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import DefaultLayout from "./layouts/DefaultLayout";
 
 const Home = lazy(() => import("./pages/Home"));
@@ -15,12 +16,13 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 
 export default function App() {
+  const { t } = useTranslation();
   return (
     <Router>
       <Suspense
         fallback={
           <div className="flex items-center justify-center h-screen text-blue-600 font-medium">
-            Carregando...
+            {t("Carregando...")}
           </div>
         }
       >

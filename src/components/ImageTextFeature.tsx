@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface ImageTextFeatureProps {
   tag?: string;
@@ -17,6 +18,7 @@ export default function ImageTextFeature({
   imageAlt = "Imagem ilustrativa",
   imagePosition = "right",
 }: ImageTextFeatureProps) {
+  const { t } = useTranslation();
   return (
     <section className="w-full py-16 md:py-24 bg-white overflow-hidden">
       <div className=" mx-auto px-6 md:px-12">
@@ -28,14 +30,14 @@ export default function ImageTextFeature({
           <div className="w-full lg:flex-1 space-y-4 m-0  max-w-[411px]">
             {tag && (
               <span className="text-xs md:text-sm lg:text-[24px] font-semibold tracking-wider text-[#0027B0] uppercase m-0">
-                {tag}
+                {t(tag)}
               </span>
             )}
             <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-semibold text-[#002341] leading-tight tracking-tight m-0">
-              {title}
+              {typeof title === "string" ? t(title) : title}
             </h2>
             <p className=" text-[#636364] text-sm md:text-base lg:text-[18px] leading-relaxed pt-2 m-0 max-w-xl">
-              {description}
+              {t(description)}
             </p>
           </div>
 
@@ -44,7 +46,7 @@ export default function ImageTextFeature({
             <div className="relative w-full aspect-[4/3] md:aspect-[1/1] lg:aspect-auto lg:h-[599px] overflow-hidden rounded-3xl shadow-sm">
               <img
                 src={imageSrc}
-                alt={imageAlt}
+                alt={t(imageAlt)}
                 className="w-full h-full object-cover object-center"
               />
             </div>

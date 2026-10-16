@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export interface SolutionCardItem {
   imageSrc: string;
@@ -18,6 +19,7 @@ export const SolutionCardsSection: React.FC<SolutionCardsSectionProps> = ({
   subtitle,
   cards,
 }) => {
+  const { t } = useTranslation();
   return (
     <section
       className="w-full bg-white px-6 py-16 lg:px-28  md:py-24 text-[#0f172a]"
@@ -26,11 +28,11 @@ export const SolutionCardsSection: React.FC<SolutionCardsSectionProps> = ({
       <div className="   mx-auto">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-[48px] font-semibold tracking-tight text-[#002341] mb-3">
-            {title}
+            {t(title)}
           </h2>
           {subtitle && (
             <p className="text-[#636364] text-sm md:text-base lg:text-[18px] font-normal">
-              {subtitle}
+              {t(subtitle)}
             </p>
           )}
         </div>
@@ -46,14 +48,14 @@ export const SolutionCardsSection: React.FC<SolutionCardsSectionProps> = ({
               <div className="w-full h-64 sm:h-72 rounded-2xl overflow-hidden shadow-sm mb-4 bg-gray-100">
                 <img
                   src={card.imageSrc}
-                  alt={card.imageAlt || card.title}
+                  alt={t(card.imageAlt || card.title)}
                   className="w-full h-full object-cover"
                 />
               </div>
 
               {/* Título do Card */}
               <h3 className="text-lg lg:text-[28px] font-bold text-[#002341] mb-2">
-                {card.title}
+                {t(card.title)}
               </h3>
 
               {/* Parágrafo Condicional (Renderizado apenas se fornecido) */}
@@ -62,7 +64,7 @@ export const SolutionCardsSection: React.FC<SolutionCardsSectionProps> = ({
                   style={{ lineHeight: "1.4" }}
                   className="text-xs sm:text-sm lg:text-[16px] text-[#636364] font-normal leading-relaxed"
                 >
-                  {card.description}
+                  {t(card.description)}
                 </p>
               )}
             </div>

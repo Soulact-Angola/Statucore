@@ -87,7 +87,7 @@ export default function Infrastructure() {
   return (
     <>
       <HeroBanner
-        title={<>A base tecnológica que mantém o seu negócio em movimento.</>}
+        title="A base tecnológica que mantém o seu negócio em movimento."
         subtitle="Projetamos, implementamos e gerimos infraestruturas tecnológicas para ajudar a sua empresa a operar com mais estabilidade, conectividade e eficiência."
         imageSrc="/infraTi.png"
         buttons={[
@@ -118,12 +118,7 @@ export default function Infrastructure() {
       <FaqSection />
 
       <CtaBanner
-        title={
-          <>
-            A sua infraestrutura está preparada para acompanhar o crescimento da
-            sua empresa?
-          </>
-        }
+        title="A sua infraestrutura está preparada para acompanhar o crescimento da sua empresa?"
         description="Converse com a nossa equipa e descubra como melhorar a base tecnológica do seu negócio."
         imageSrc="/equipeOperacao.png"
         imageAlt="Segurança de TI"

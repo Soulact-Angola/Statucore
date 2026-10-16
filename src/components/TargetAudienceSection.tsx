@@ -1,4 +1,4 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface TargetItem {
   title: string;
@@ -42,6 +42,7 @@ export default function TargetAudienceSection({
   sectionTitle = "Para quem trabalhamos",
   items = defaultItems,
 }: TargetAudienceProps) {
+  const { t } = useTranslation();
   return (
     <section
       className="w-full py-16 md:py-24 bg-white overflow-hidden"
@@ -52,7 +53,7 @@ export default function TargetAudienceSection({
         {/* Título Principal */}
         <div className="text-center">
           <h2 className="font-poppins text-3xl md:text-4xl font-bold text-[#0B1B3D] tracking-tight m-0">
-            {sectionTitle}
+            {t(sectionTitle)}
           </h2>
         </div>
 
@@ -66,7 +67,7 @@ export default function TargetAudienceSection({
               {/* Imagem de Fundo do Card */}
               <img
                 src={item.imageSrc}
-                alt={item.title}
+                alt={t(item.title)}
                 className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 m-0"
               />
 
@@ -76,10 +77,10 @@ export default function TargetAudienceSection({
               {/* Conteúdo de Texto do Card (posicionado no topo) */}
               <div className="relative z-10 space-y-3 m-0">
                 <h3 className="font-poppins text-xl md:text-2xl font-bold text-white leading-snug m-0">
-                  {item.title}
+                  {t(item.title)}
                 </h3>
                 <p className="font-inter text-slate-200 text-xs md:text-sm leading-relaxed m-0">
-                  {item.description}
+                  {t(item.description)}
                 </p>
               </div>
             </div>

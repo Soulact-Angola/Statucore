@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import HeroBanner from "../components/HeroBanner";
 
 export default function Contact() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     nome: "",
     empresa: "",
@@ -48,7 +50,7 @@ export default function Contact() {
   return (
     <>
       <HeroBanner
-        title={<>Vamos falar sobre os desafios tecnológicos da sua empresa.</>}
+        title="Vamos falar sobre os desafios tecnológicos da sua empresa."
         subtitle="O núcleo da sua operação tecnológica"
         imageSrc="/heroContact.jpg"
         buttons={[{ title: "Falar com um especialista", href: "/contact" }]}
@@ -64,16 +66,16 @@ export default function Contact() {
                   style={{ lineHeight: "1.2" }}
                   className="text-3xl sm:text-4xl lg:text-[56px] font-semibold tracking-tight text-[#002341] leading-tight mb-6  lg:max-w-[602px]"
                 >
-                  Conte-nos o que a sua empresa precisa.
+                  {t("Conte-nos o que a sua empresa precisa.")}
                 </h2>
 
                 <p
                   style={{ lineHeight: "1.4" }}
                   className="text-[#636364] text-sm sm:text-base lg:text-[18px] font-normal leading-relaxed mb-10 lg:max-w-[602px]"
                 >
-                  Use o formulário para descrever o que a sua organização
-                  precisa. Responderemos com a atenção e o rigor que o seu
-                  desafio merece.
+                  {t(
+                    "Use o formulário para descrever o que a sua organização precisa. Responderemos com a atenção e o rigor que o seu desafio merece.",
+                  )}
                 </p>
 
                 <div className="space-y-6">
@@ -95,7 +97,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-gray-900 leading-snug">
-                        Localização
+                        {t("Localização")}
                       </h3>
                       <p className="text-sm text-gray-500 leading-normal">
                         Luanda, Angola
@@ -121,10 +123,10 @@ export default function Contact() {
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-gray-900 leading-snug">
-                        Contacto
+                        {t("Contacto")}
                       </h3>
                       <p className="text-sm text-gray-500 leading-normal">
-                        Disponível através deste formulário
+                        {t("Disponível através deste formulário")}
                       </p>
                     </div>
                   </div>
@@ -147,10 +149,10 @@ export default function Contact() {
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-gray-900 leading-snug">
-                        Monitorização
+                        {t("Monitorização")}
                       </h3>
                       <p className="text-sm text-gray-500 leading-normal">
-                        Operação contínua, 24 horas por dia
+                        {t("Operação contínua, 24 horas por dia")}
                       </p>
                     </div>
                   </div>
@@ -163,7 +165,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Nome
+                    {t("Nome")}
                   </label>
                   <input
                     type="text"
@@ -177,7 +179,7 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Empresa
+                    {t("Empresa")}
                   </label>
                   <input
                     type="text"
@@ -190,7 +192,7 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Email corporativo
+                    {t("Email corporativo")}
                   </label>
                   <input
                     type="email"
@@ -205,7 +207,7 @@ export default function Contact() {
                 <div className="grid grid-cols-12 gap-3">
                   <div className="col-span-4 sm:col-span-3">
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      DDI
+                      {t("DDI")}
                     </label>
                     <input
                       type="text"
@@ -217,7 +219,7 @@ export default function Contact() {
                   </div>
                   <div className="col-span-8 sm:col-span-9">
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      Telefone
+                      {t("Telefone")}
                     </label>
                     <input
                       type="tel"
@@ -232,7 +234,7 @@ export default function Contact() {
 
                 <div className="relative">
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Serviço de interesse
+                    {t("Serviço de interesse")}
                   </label>
                   <div
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -245,7 +247,9 @@ export default function Contact() {
                           : "text-gray-400"
                       }
                     >
-                      {formData.servicoInteresse || "Selecione um serviço"}
+                      {formData.servicoInteresse
+                        ? t(formData.servicoInteresse)
+                        : t("Selecione um serviço")}
                     </span>
                     <svg
                       className={`w-4 h-4 text-gray-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
@@ -280,7 +284,7 @@ export default function Contact() {
                               : "text-gray-700 hover:bg-gray-50"
                           }`}
                         >
-                          {option}
+                          {t(option)}
                         </div>
                       ))}
                     </div>
@@ -289,7 +293,7 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Mensagem
+                    {t("Mensagem")}
                   </label>
                   <textarea
                     name="mensagem"
@@ -314,14 +318,14 @@ export default function Contact() {
                     htmlFor="privacidade"
                     className="text-xs text-gray-500 leading-normal select-none"
                   >
-                    Gostaria que a Statucore entrasse em contato comigo com base
-                    nas informações fornecidas acima. Concordo com o
-                    processamento dos meus dados pessoais conforme descrito no{" "}
+                    {t(
+                      "Gostaria que a Statucore entrasse em contato comigo com base nas informações fornecidas acima. Concordo com o processamento dos meus dados pessoais conforme descrito no",
+                    )}{" "}
                     <a
                       href="#"
                       className="text-blue-600 underline hover:text-blue-800"
                     >
-                      Aviso de Privacidade
+                      {t("Aviso de Privacidade")}
                     </a>
                     .
                   </label>
@@ -332,7 +336,7 @@ export default function Contact() {
                     type="submit"
                     className="w-full py-3 px-6 bg-[#0047ff] hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                   >
-                    Enviar pedido
+                    {t("Enviar pedido")}
                   </button>
                 </div>
               </form>

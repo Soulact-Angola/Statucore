@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface FooterProps {
   logoComponent?: React.ReactNode;
@@ -30,6 +31,7 @@ export default function Footer({
     linkedin: "#",
   },
 }: FooterProps) {
+  const { t } = useTranslation();
   return (
     <footer className="w-full max-w-none rounded-none border-x-0 border-y border-[#A5A5A5] bg-[#000211] py-16 text-white">
       {/* Container fluido com espaçamento lateral responsivo */}
@@ -135,7 +137,7 @@ export default function Footer({
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span>Luanda, Angola</span>
+                <span>{t("Luanda, Angola")}</span>
               </div>
 
               <div className="flex items-center space-x-3">
@@ -178,7 +180,7 @@ export default function Footer({
               {/* Navegação */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-white text-base">
-                  Navegação
+                  {t("Navegação")}
                 </h3>
                 <ul className="space-y-3 text-sm text-slate-300">
                   {navLinks.map((link, index) => (
@@ -187,7 +189,7 @@ export default function Footer({
                         href={link.href}
                         className="hover:text-white transition-colors"
                       >
-                        {link.label}
+                        {t(link.label)}
                       </a>
                     </li>
                   ))}
@@ -196,7 +198,9 @@ export default function Footer({
 
               {/* Serviços */}
               <div className="space-y-4">
-                <h3 className="font-semibold text-white text-base">Serviços</h3>
+                <h3 className="font-semibold text-white text-base">
+                  {t("Serviços")}
+                </h3>
                 <ul className="space-y-3 text-sm text-slate-300">
                   {serviceLinks.map((link, index) => (
                     <li key={index}>
@@ -204,7 +208,7 @@ export default function Footer({
                         href={link.href}
                         className="hover:text-white transition-colors"
                       >
-                        {link.label}
+                        {t(link.label)}
                       </a>
                     </li>
                   ))}
@@ -219,7 +223,7 @@ export default function Footer({
 
         {/* Rodapé Inferior: Copyright e Redes Sociais */}
         <div className="flex flex-col md:flex-row items-center justify-between text-sm text-slate-400 space-y-4 md:space-y-0">
-          <p>© 2026 StatuCore. Todos os direitos reservados.</p>
+          <p>{t("© 2026 StatuCore. Todos os direitos reservados.")}</p>
 
           {/* Ícones das Redes Sociais */}
           <div className="flex items-center space-x-4">
