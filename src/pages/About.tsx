@@ -18,21 +18,21 @@ export default function About() {
       title: "Infraestrutura tecnológica",
       description:
         "Criamos bases tecnológicas sólidas através de redes empresariais, servidores, datacenters e virtualização.",
-      imageSrc: "tec.jpg",
+      imageSrc: "tec.png",
     },
     {
       id: 2,
       title: "Serviços geridos e monitorização",
       description:
         "Acompanhamos ambientes tecnológicos de forma contínua, ajudando a identificar problemas e a reduzir interrupções.",
-      imageSrc: "tec.jpg",
+      imageSrc: "tec2.png",
     },
     {
       id: 3,
       title: "Suporte técnico e Helpdesk",
       description:
         "Apoiamos os utilizadores e ajudamos a resolver incidentes para que as equipas possam trabalhar com menos obstáculos.",
-      imageSrc: "tec.jpg",
+      imageSrc: "tec3.png",
     },
   ];
 
@@ -41,17 +41,17 @@ export default function About() {
       id: 1,
       title: "Bancário",
 
-      imageSrc: "tec.jpg",
+      imageSrc: "tec4.png",
     },
     {
       id: 2,
       title: "Saúde",
-      imageSrc: "tec.jpg",
+      imageSrc: "tec5.png",
     },
     {
       id: 3,
       title: "Educação",
-      imageSrc: "tec.jpg",
+      imageSrc: "tec6.png",
     },
   ];
 
@@ -83,7 +83,7 @@ export default function About() {
       <HeroBanner
         title="Tecnologia que acompanha o crescimento do seu negócio"
         subtitle="Ajudamos empresas a gerir a tecnologia com mais segurança, eficiência e confiança. Combinamos conhecimento técnico, acompanhamento contínuo e soluções adaptadas às necessidades de cada organização."
-        imageSrc="/heroSobre.jpg"
+        imageSrc="/heroSobre.png"
         buttons={[{ title: "Fale connosco", href: "/contact" }]}
       />
       <AboutSummary variant="about" />
@@ -98,7 +98,7 @@ export default function About() {
         tag="A NOSSA VISÃO"
         title="Construir relações de confiança através da tecnologia."
         description="Queremos ser um parceiro tecnológico de referência para empresas em Angola, reconhecido pela qualidade dos serviços, pela proximidade com os clientes e pela capacidade de responder aos desafios de um mercado em constante evolução."
-        imageSrc="/visao.jpg"
+        imageSrc="/visao.png"
         imagePosition="left"
       />
       <div
@@ -131,7 +131,7 @@ export default function About() {
         items={diferencialItems}
       />
       <CtaBanner
-        title="O seu negócio tem objetivos. Nós ajudamos a tecnologia a acompanhá-los."
+        title="Alinhamos a tecnologia aos objetivos do seu negócio."
         description="Conte-nos quais são os seus desafios tecnológicos. A nossa equipa está disponível para conversar consigo e explorar soluções adequadas à sua empresa."
         imageSrc="/reuniao.png"
         imageAlt="Segurança de TI"

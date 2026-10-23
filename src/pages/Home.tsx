@@ -7,6 +7,7 @@ import HeroBanner from "../components/HeroBanner";
 import OurServicesSection from "../components/OurServicesSection";
 import ServiceFeatureBlock from "../components/ServiceFeatureBlock";
 import TargetAudienceSection from "../components/TargetAudienceSection";
+import ParallaxSections from "../components/ParallaxSections";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -34,12 +35,15 @@ export default function Home() {
   ];
   return (
     <>
-      <HeroBanner
-        title={t("Tecnologia & Serviços")}
+      <ParallaxSections />
+
+      {/* <HeroBanner
+        title={<span className="block max-w-xl">Tecnologia & Serviços</span>}
         subtitle="O núcleo da sua operação tecnológica"
         imageSrc="/home.png"
+        isHome={true}
         buttons={[{ title: "Falar com um especialista", href: "/contact" }]}
-      />
+      /> */}
 
       <AboutSummary variant="home" />
 
@@ -154,7 +158,7 @@ export default function Home() {
       <TargetAudienceSection />
 
       <CtaBanner
-        title="A segurança não pode ser uma preocupação para depois."
+        title="A segurança é uma prioridade, não uma opção para depois."
         description="Ameaças digitais podem comprometer dados, sistemas e operações. Ajudamos a sua empresa a reduzir riscos e a construir uma infraestrutura mais protegida."
         imageSrc="/seguranca-bg.png" // Substitui pelo caminho da tua imagem
         imageAlt="Segurança de TI"

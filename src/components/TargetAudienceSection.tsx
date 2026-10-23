@@ -48,7 +48,6 @@ export default function TargetAudienceSection({
       className="w-full py-16 md:py-24 bg-white overflow-hidden"
       data-aos="fade-up"
     >
-      {/* Container principal limitado a max-w-[1220px] para controlar a expansão horizontal */}
       <div className=" mx-auto px-6 md:px-12 lg:px-28 space-y-12">
         {/* Título Principal */}
         <div className="text-center">
@@ -57,7 +56,6 @@ export default function TargetAudienceSection({
           </h2>
         </div>
 
-        {/* Contentor dos Cards: Grid de 4 colunas no desktop / Scroll horizontal suave no mobile */}
         <div className="flex lg:grid lg:grid-cols-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory gap-6 pb-6 lg:pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {items.map((item, index) => (
             <div
@@ -71,15 +69,15 @@ export default function TargetAudienceSection({
                 className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 m-0"
               />
 
-              {/* Overlay uniforme e consistente em todo o card */}
-              <div className="absolute inset-0 bg-slate-950/50" />
+              {/* Overlay uniforme a 40% */}
+              <div className="absolute inset-0 bg-[#0B1B3D]/40" />
 
               {/* Conteúdo de Texto do Card (posicionado no topo) */}
               <div className="relative z-10 space-y-3 m-0">
                 <h3 className="font-poppins text-xl md:text-2xl font-bold text-white leading-snug m-0">
                   {t(item.title)}
                 </h3>
-                <p className="font-inter text-slate-200 text-xs md:text-sm leading-relaxed m-0">
+                <p className="font-inter text-white text-xs md:text-sm leading-relaxed m-0">
                   {t(item.description)}
                 </p>
               </div>

@@ -33,7 +33,7 @@ export default function Footer({
 }: FooterProps) {
   const { t } = useTranslation();
   return (
-    <footer className="w-full max-w-none rounded-none border-x-0 border-y border-[#A5A5A5] bg-[#000211] py-16 text-white">
+    <footer className="w-full rounded-none border-x-0 border-y border-[#A5A5A5] bg-[#000211] py-16 text-white">
       {/* Container fluido com espaçamento lateral responsivo */}
       <div className="w-full px-6 md:px-12 lg:px-28 space-y-16">
         {/* Topo: Grid Principal */}

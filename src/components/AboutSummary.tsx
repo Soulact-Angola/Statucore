@@ -35,7 +35,7 @@ const summaryData: Record<SummaryVariant, SummaryContentItem> = {
       "Atuamos em diferentes áreas das tecnologias de informação, desde a infraestrutura e os serviços cloud até ao suporte técnico, à monitorização e à cibersegurança..",
       "Mais do que implementar soluções, procuramos compreender os desafios de cada empresa, identificar oportunidades de melhoria e disponibilizar o suporte necessário para manter as operações a funcionar.",
     ],
-    imageSrc: "/2.jpg",
+    imageSrc: "/2.png",
     imageAlt: "Equipe de desenvolvimento",
   },
   servicesInfra: {
@@ -91,11 +91,14 @@ export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
   const content = summaryData[variant] || summaryData.home;
 
   return (
-    <section className="w-full bg-white py-16 md:py-24" data-aos="fade-up">
-      <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-6 items-center">
+    <section
+      className="w-full bg-white py-10 sm:py-14 md:py-24 overflow-hidden"
+      data-aos="fade-up"
+    >
+      <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-16 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-6 items-center">
           <div className="w-full flex justify-center">
-            <div className="relative w-full max-w-lg aspect-[4/3] md:aspect-[1/1] overflow-hidden rounded-3xl shadow-sm">
+            <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] md:aspect-[1/1] overflow-hidden rounded-2xl md:rounded-3xl shadow-sm">
               <img
                 src={content.imageSrc}
                 alt={t(content.imageAlt)}
@@ -104,14 +107,14 @@ export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
             </div>
           </div>
 
-          <div className="space-y-6 lg:max-w-[413px]">
-            <h2 className="text-3xl sm:text-4xl md:text-[2.6rem] lg:text-[48px] font-semibold text-[#002341] leading-[1.15] tracking-tight">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6 w-full max-w-md sm:max-w-lg md:max-w-2xl mx-auto lg:mx-0 lg:max-w-[413px]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] font-semibold text-[#002341] leading-[1.15] tracking-tight break-words">
               {t(content.title)}
             </h2>
 
             <div
               style={{ lineHeight: "1.4" }}
-              className="space-y-4 font-normal text-[#636364] text-base md:text-lg lg:text-[18px] leading-relaxed"
+              className="space-y-3 md:space-y-4 font-normal text-[#636364] text-sm sm:text-base md:text-lg lg:text-[18px] leading-relaxed"
             >
               {content.paragraphs.map((paragraph, index) => (
                 <p key={index}>{t(paragraph)}</p>

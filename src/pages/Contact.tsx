@@ -2,6 +2,22 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import HeroBanner from "../components/HeroBanner";
 
+const labelClass = "block text-xs font-bold text-[#0f172a] mb-1.5";
+const inputClass =
+  "w-full px-3 py-2.5 bg-[#F9FAFC] border border-[#D0D0D2] rounded-lg text-sm text-[#A2A2A3] focus:outline-none focus:border-blue-600 transition-colors placeholder:text-[#A2A2A3]";
+
+const serviceOptions = [
+  "Infraestrutura",
+  "Suporte Técnico",
+  "Cloud",
+  "Cibersegurança",
+  "Serviços Geridos",
+  "Monitorização 24/7",
+  "Helpdesk",
+  "Outsourcing IT",
+  "Outro",
+];
+
 export default function Contact() {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
@@ -16,18 +32,6 @@ export default function Contact() {
   });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const serviceOptions = [
-    "Infraestrutura",
-    "Suporte Técnico",
-    "Cloud",
-    "Cibersegurança",
-    "Serviços Geridos",
-    "Monitorização 24/7",
-    "Helpdesk",
-    "Outsourcing IT",
-    "Outro",
-  ];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -52,26 +56,29 @@ export default function Contact() {
       <HeroBanner
         title="Vamos falar sobre os desafios tecnológicos da sua empresa."
         subtitle="O núcleo da sua operação tecnológica"
-        imageSrc="/heroContact.jpg"
+        imageSrc="/heroContact.png"
         buttons={[{ title: "Falar com um especialista", href: "/contact" }]}
       />
 
-      <section className="w-full bg-white px-6 py-16 md:px-12 lg:px-28 md:py-24 text-[#0f172a]">
+      <section
+        className="w-full bg-white px-6 py-16 md:px-12 lg:px-28 md:py-24 text-[#0f172a]"
+        data-aos="fade-up"
+      >
         <div className="w-full">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-12 lg:gap-16 items-start">
-            {/* Coluna da Esquerda: Título, Descrição e Informações */}
+            {/* Coluna da Esquerda */}
             <div className="flex flex-col justify-between h-full pt-2">
               <div>
                 <h2
                   style={{ lineHeight: "1.2" }}
-                  className="text-3xl sm:text-4xl lg:text-[56px] font-semibold tracking-tight text-[#002341] leading-tight mb-6  lg:max-w-[602px]"
+                  className="text-3xl sm:text-4xl lg:text-[56px] font-semibold tracking-tight text-[#002341] leading-tight mb-6 lg:max-w-[570px]"
                 >
                   {t("Conte-nos o que a sua empresa precisa.")}
                 </h2>
 
                 <p
                   style={{ lineHeight: "1.4" }}
-                  className="text-[#636364] text-sm sm:text-base lg:text-[18px] font-normal leading-relaxed mb-10 lg:max-w-[602px]"
+                  className="text-[#636364] text-sm sm:text-base lg:text-[18px] font-normal leading-relaxed mb-10 lg:max-w-[500px]"
                 >
                   {t(
                     "Use o formulário para descrever o que a sua organização precisa. Responderemos com a atenção e o rigor que o seu desafio merece.",
@@ -96,7 +103,7 @@ export default function Contact() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-gray-900 leading-snug">
+                      <h3 className="text-base font-medium text-[#0f172a] leading-snug">
                         {t("Localização")}
                       </h3>
                       <p className="text-sm text-gray-500 leading-normal">
@@ -122,7 +129,7 @@ export default function Contact() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-gray-900 leading-snug">
+                      <h3 className="text-base font-medium text-[#0f172a] leading-snug">
                         {t("Contacto")}
                       </h3>
                       <p className="text-sm text-gray-500 leading-normal">
@@ -148,7 +155,7 @@ export default function Contact() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-gray-900 leading-snug">
+                      <h3 className="text-base font-medium text-[#0f172a] leading-snug">
                         {t("Monitorização")}
                       </h3>
                       <p className="text-sm text-gray-500 leading-normal">
@@ -161,84 +168,74 @@ export default function Contact() {
             </div>
 
             {/* Coluna da Direita: Formulário */}
-            <div className="min-w-0 bg-[#f8fafc] rounded-2xl p-6 sm:p-8 shadow-xl shadow-gray-200/50 border border-gray-100 relative">
-              <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="min-w-0 bg-white rounded-2xl p-6 sm:p-8 shadow-[0_10px_40px_rgba(15,23,42,0.08)]">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    {t("Nome")}
-                  </label>
+                  <label className={labelClass}>{t("Nome")}</label>
                   <input
                     type="text"
                     name="nome"
                     value={formData.nome}
                     onChange={handleChange}
-                    className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600 transition-colors"
+                    className={inputClass}
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    {t("Empresa")}
-                  </label>
+                  <label className={labelClass}>{t("Empresa")}</label>
                   <input
                     type="text"
                     name="empresa"
                     value={formData.empresa}
                     onChange={handleChange}
-                    className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600 transition-colors"
+                    className={inputClass}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    {t("Email corporativo")}
-                  </label>
+                  <label className={labelClass}>{t("Email corporativo")}</label>
                   <input
                     type="email"
                     name="emailCorporativo"
                     value={formData.emailCorporativo}
                     onChange={handleChange}
-                    className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600 transition-colors"
+                    className={inputClass}
                     required
                   />
                 </div>
 
-                <div className="grid grid-cols-12 gap-3">
-                  <div className="col-span-4 sm:col-span-3">
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      {t("DDI")}
-                    </label>
+                <div className="grid grid-cols-[72px_1fr] gap-3">
+                  <div>
+                    <label className={labelClass}>{t("DDI")}</label>
                     <input
                       type="text"
                       name="ddi"
                       value={formData.ddi}
                       onChange={handleChange}
-                      className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600 transition-colors text-center"
+                      className={`${inputClass} text-[#A2A2A3]`}
                     />
                   </div>
-                  <div className="col-span-8 sm:col-span-9">
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      {t("Telefone")}
-                    </label>
+                  <div>
+                    <label className={labelClass}>{t("Telefone")}</label>
                     <input
                       type="tel"
                       name="telefone"
                       placeholder="922556655"
                       value={formData.telefone}
                       onChange={handleChange}
-                      className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
+                      className={inputClass}
                     />
                   </div>
                 </div>
 
                 <div className="relative">
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className={labelClass}>
                     {t("Serviço de interesse")}
                   </label>
                   <div
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 flex items-center justify-between cursor-pointer focus:border-blue-600"
+                    className={`${inputClass} flex items-center justify-between cursor-pointer min-h-[42px]`}
                   >
                     <span
                       className={
@@ -249,10 +246,10 @@ export default function Contact() {
                     >
                       {formData.servicoInteresse
                         ? t(formData.servicoInteresse)
-                        : t("Selecione um serviço")}
+                        : ""}
                     </span>
                     <svg
-                      className={`w-4 h-4 text-gray-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+                      className={`w-4 h-4 text-gray-900 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -292,19 +289,17 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    {t("Mensagem")}
-                  </label>
+                  <label className={labelClass}>{t("Mensagem")}</label>
                   <textarea
                     name="mensagem"
-                    rows={3}
+                    rows={4}
                     value={formData.mensagem}
                     onChange={handleChange}
-                    className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600 transition-colors resize-none"
+                    className={`${inputClass} resize-none`}
                   />
                 </div>
 
-                <div className="flex items-start gap-2.5 pt-1">
+                <div className="flex items-start gap-2.5">
                   <input
                     type="checkbox"
                     name="concordoPrivacidade"
@@ -316,7 +311,7 @@ export default function Contact() {
                   />
                   <label
                     htmlFor="privacidade"
-                    className="text-xs text-gray-500 leading-normal select-none"
+                    className="text-xs text-gray-600 leading-normal select-none"
                   >
                     {t(
                       "Gostaria que a Statucore entrasse em contato comigo com base nas informações fornecidas acima. Concordo com o processamento dos meus dados pessoais conforme descrito no",
@@ -331,14 +326,12 @@ export default function Contact() {
                   </label>
                 </div>
 
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className="w-full py-3 px-6 bg-[#0047ff] hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                  >
-                    {t("Enviar pedido")}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className="cursor-pointer w-full py-3 px-6 bg-[#0049E3] hover:bg-blue-300 text-white font-semibold text-sm rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  {t("Enviar pedido")}
+                </button>
               </form>
             </div>
           </div>
