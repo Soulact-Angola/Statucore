@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export interface CardItem {
   id: string | number;
@@ -14,107 +15,122 @@ interface CardSliderProps {
   autoPlayInterval?: number;
 }
 
+const DESKTOP_GAP = 32;
+
 export default function CardSlider({
   items,
   autoPlayInterval = 4000,
 }: CardSliderProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { t } = useTranslation();
+  // Posição absoluta: cresce/decresce sem nunca voltar a 0
+  const [position, setPosition] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [cardWidth, setCardWidth] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
 
-  const cardRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const n = items.length;
 
-  // Atualiza a largura real do card dinamicamente ao redimensionar a tela
   useEffect(() => {
-    const updateCardWidth = () => {
-      if (cardRef.current) {
-        setCardWidth(cardRef.current.offsetWidth);
-      }
-    };
-
-    updateCardWidth();
-    window.addEventListener("resize", updateCardWidth);
-    return () => window.removeEventListener("resize", updateCardWidth);
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => setContainerWidth(el.offsetWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
-  // Controle do Autoplay
   useEffect(() => {
-    if (!isPlaying) return;
-
-    const timer = setInterval(() => {
-      handleNext();
-    }, autoPlayInterval);
-
-    return () => clearInterval(timer);
-  }, [isPlaying, currentIndex, autoPlayInterval, items.length]);
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + items.length) % items.length,
+    if (!isPlaying || n < 2) return;
+    const timer = setInterval(
+      () => setPosition((p) => p + 1),
+      autoPlayInterval,
     );
-  };
+    return () => clearInterval(timer);
+  }, [isPlaying, autoPlayInterval, n, position]);
 
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
+  const handleNext = () => setPosition((p) => p + 1);
+  const handlePrev = () => setPosition((p) => p - 1);
 
-  // Reorganiza o array ciclicamente mantendo o comportamento perfeito que você aprovou
-  const orderedItems = [
-    ...items.slice(currentIndex),
-    ...items.slice(0, currentIndex),
-  ];
+  // Breakpoints baseados na largura real do container
+  const isDesktop = containerWidth >= 1024;
+  const isTablet = containerWidth >= 640 && containerWidth < 1024;
+
+  const gap = isDesktop ? DESKTOP_GAP : isTablet ? 24 : 16;
+
+  const cardWidth = !containerWidth
+    ? 0
+    : isDesktop
+      ? Math.max(260, (containerWidth / 2 - DESKTOP_GAP) / 1.05) // igual ao desktop aprovado
+      : isTablet
+        ? containerWidth * 0.62
+        : containerWidth * 0.78;
+
+  const step = cardWidth + gap;
+
+  // Slots renderizados: 2 de cada lado do centro (os de ±2 ficam fora do ecrã)
+  const slots = [-2, -1, 0, 1, 2].map((d) => position + d);
 
   return (
-    <div className="w-full py-12 bg-white overflow-hidden">
-      {/* 1. CONTAINER DO CARROSSEL: Respeita os 122px à esquerda e sangra na direita */}
-      <div className="w-full pl-[122px] overflow-hidden mb-10">
-        <motion.div className="flex gap-8" layout>
-          {orderedItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              ref={index === 0 ? cardRef : null}
-              layout
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              // Largura dinâmica mantendo 2 cards inteiros e o pedacinho do próximo na ponta
-              style={{ width: "calc((100vw - 122px - 32px) / 2.2)" }}
-              className="flex-shrink-0 min-w-[280px] md:min-w-[400px]"
-            >
-              <div className="relative w-full max-h-[400px] aspect-[4/3] overflow-hidden rounded-3xl shadow-sm mb-4">
-                <img
-                  src={item.imageSrc}
-                  alt={item.imageAlt || item.title}
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
+    <div className="w-full py-8 md:py-12 bg-white overflow-hidden">
+      <motion.div
+        ref={containerRef}
+        className="w-full grid overflow-hidden mb-6 md:mb-10 cursor-grab active:cursor-grabbing touch-pan-y"
+        onPanEnd={(_, info) => {
+          if (info.offset.x < -50) handleNext();
+          else if (info.offset.x > 50) handlePrev();
+        }}
+      >
+        {cardWidth > 0 &&
+          slots.map((slot) => {
+            const item = items[((slot % n) + n) % n];
+            const x = (slot - position) * step;
 
-              <h3 className="text-xl md:text-2xl lg:text-[28px] font-bold text-[#002341] mb-2">
-                {item.title}
-              </h3>
+            return (
+              <motion.div
+                key={slot} // chave = slot absoluto, não o id do item
+                initial={{ x }}
+                animate={{ x }}
+                transition={{ type: "spring", stiffness: 260, damping: 30 }}
+                style={{
+                  gridArea: "1 / 1",
+                  width: cardWidth,
+                  justifySelf: "center",
+                }}
+              >
+                <div className="relative w-full aspect-[4/3] max-h-[400px] overflow-hidden rounded-3xl shadow-sm mb-4">
+                  <img
+                    src={item.imageSrc}
+                    alt={t(item.imageAlt || item.title)}
+                    draggable={false}
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
 
-              {item.description && (
-                <p
-                  style={{ lineHeight: "1.4" }}
-                  className=" text-[#002341] text-sm md:text-base lg:text-[16px] font-normal leading-relaxed line-clamp-3"
-                >
-                  {item.description}
-                </p>
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
+                <h3 className="text-xl md:text-2xl lg:text-[28px] font-bold text-[#002341] mb-2">
+                  {t(item.title)}
+                </h3>
 
-      <div className="w-full px-[122px]">
+                {item.description && (
+                  <p
+                    style={{ lineHeight: "1.4" }}
+                    className="text-[#002341] text-sm md:text-base lg:text-[16px] font-normal line-clamp-3"
+                  >
+                    {t(item.description)}
+                  </p>
+                )}
+              </motion.div>
+            );
+          })}
+      </motion.div>
+
+      {/* Controles */}
+      <div className="w-full px-5 md:px-12 lg:px-[122px]">
         <div className="flex items-center justify-between">
-          {/* Botão Play/Pause */}
           <button
-            onClick={togglePlayPause}
+            onClick={() => setIsPlaying((p) => !p)}
             className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:bg-neutral-800 transition-colors shadow-sm focus:outline-none"
-            aria-label={isPlaying ? "Pausar" : "Reproduzir"}
+            aria-label={isPlaying ? t("Pausar") : t("Reproduzir")}
           >
             {isPlaying ? (
               <svg
@@ -138,12 +154,11 @@ export default function CardSlider({
             )}
           </button>
 
-          {/* Botões de Avançar e Recuar */}
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrev}
               className="w-12 h-12 rounded-full bg-neutral-100 text-[#0B1B3D] flex items-center justify-center hover:bg-neutral-200 transition-colors shadow-sm focus:outline-none"
-              aria-label="Anterior"
+              aria-label={t("Anterior")}
             >
               <svg
                 width="20"
@@ -162,7 +177,7 @@ export default function CardSlider({
             <button
               onClick={handleNext}
               className="w-12 h-12 rounded-full bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800 transition-colors shadow-sm focus:outline-none"
-              aria-label="Próximo"
+              aria-label={t("Próximo")}
             >
               <svg
                 width="20"
