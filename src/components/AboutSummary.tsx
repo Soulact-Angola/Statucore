@@ -89,15 +89,23 @@ interface AboutSummaryProps {
 export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
   const { t } = useTranslation();
   const content = summaryData[variant] || summaryData.home;
+  const anchorId = `summary-${variant}`;
 
   return (
-    <section
-      className="w-full bg-white py-10 sm:py-14 md:py-24 overflow-hidden"
-      data-aos="fade-up"
-    >
+    <section className="w-full bg-white py-10 sm:py-14 md:py-24 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-16 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-6 items-center">
-          <div className="w-full flex justify-center">
+        <div
+          id={anchorId}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-6 items-center"
+        >
+          {/* Imagem: entra da esquerda */}
+          <div
+            className="w-full flex justify-center"
+            data-aos="fade-right"
+            data-aos-anchor={`#${anchorId}`}
+            data-aos-duration="1200"
+            data-aos-easing="ease-out-cubic"
+          >
             <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] md:aspect-[1/1] overflow-hidden rounded-2xl md:rounded-3xl shadow-sm">
               <img
                 src={content.imageSrc}
@@ -107,8 +115,16 @@ export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
             </div>
           </div>
 
+          {/* Texto: entra da direita, em cascata */}
           <div className="space-y-4 sm:space-y-5 md:space-y-6 w-full max-w-md sm:max-w-lg md:max-w-2xl mx-auto lg:mx-0 lg:max-w-[413px]">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] font-semibold text-[#002341] leading-[1.15] tracking-tight break-words">
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] font-semibold text-[#002341] leading-[1.15] tracking-tight break-words"
+              data-aos="fade-left"
+              data-aos-anchor={`#${anchorId}`}
+              data-aos-duration="1200"
+              data-aos-delay="150"
+              data-aos-easing="ease-out-cubic"
+            >
               {t(content.title)}
             </h2>
 
@@ -117,7 +133,16 @@ export default function AboutSummary({ variant = "home" }: AboutSummaryProps) {
               className="space-y-3 md:space-y-4 font-normal text-[#636364] text-sm sm:text-base md:text-lg lg:text-[18px] leading-relaxed"
             >
               {content.paragraphs.map((paragraph, index) => (
-                <p key={index}>{t(paragraph)}</p>
+                <p
+                  key={index}
+                  data-aos="fade-left"
+                  data-aos-anchor={`#${anchorId}`}
+                  data-aos-duration="1200"
+                  data-aos-delay={300 + index * 150}
+                  data-aos-easing="ease-out-cubic"
+                >
+                  {t(paragraph)}
+                </p>
               ))}
             </div>
           </div>

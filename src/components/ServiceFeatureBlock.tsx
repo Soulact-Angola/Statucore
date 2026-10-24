@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
 
 interface BenefitItem {
@@ -31,13 +32,33 @@ export default function ServiceFeatureBlock({
   ctaHref = "#",
 }: ServiceFeatureBlockProps) {
   const { t } = useTranslation();
+
+  // Ids únicos por bloco (os ":" do useId partem o seletor CSS)
+  const uid = useId().replace(/:/g, "");
+  const topAnchor = `feature-top-${uid}`;
+  const benefitsAnchor = `feature-benefits-${uid}`;
+
+  // Imagem e texto entram de lados opostos, conforme a posição da imagem
+  const imageAos = imagePosition === "right" ? "fade-left" : "fade-right";
+  const textAos = imagePosition === "right" ? "fade-right" : "fade-left";
+
+  const aos = (type: string, anchor: string, delay = 0) => ({
+    "data-aos": type,
+    "data-aos-anchor": `#${anchor}`,
+    "data-aos-delay": delay,
+    "data-aos-duration": 1200,
+    "data-aos-easing": "ease-out-cubic",
+  });
+
+  const hasBenefits = benefitsList && benefitsList.length > 0;
+
   return (
-    <section className="w-full py-16 md:py-24 bg-white" data-aos="fade-up">
+    <section className="w-full py-16 md:py-24 bg-white overflow-hidden">
       {/* Bloco Superior (Com limite de largura e padding lateral) */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-20">
         {/* Título Principal da Secção (Opcional) */}
         {sectionTitle && (
-          <div className="text-center">
+          <div className="text-center" {...aos("fade-up", topAnchor)}>
             <h2 className="font-poppins text-3xl md:text-4xl font-bold text-[#0B1B3D] tracking-tight m-0">
               {t(sectionTitle)}
             </h2>
@@ -46,6 +67,7 @@ export default function ServiceFeatureBlock({
 
         {/* Bloco Superior: Texto e imagem com gap exato de 22px */}
         <div
+          id={topAnchor}
           className={`grid grid-cols-1 gap-y-12 lg:gap-[22px] lg:justify-center items-center ${
             imagePosition === "left"
               ? "lg:grid-cols-[480px_413px]"
@@ -57,6 +79,7 @@ export default function ServiceFeatureBlock({
             className={`flex ${
               imagePosition === "left" ? "lg:order-1" : "lg:order-2"
             }`}
+            {...aos(imageAos, topAnchor)}
           >
             <div className="relative rounded-3xl overflow-hidden shadow-xl w-full max-w-[480px] aspect-square m-0">
               <img
@@ -73,11 +96,17 @@ export default function ServiceFeatureBlock({
               imagePosition === "left" ? "lg:order-2" : "lg:order-1"
             }`}
           >
-            <h3 className="text-3xl md:text-4xl lg:text-[48px] font-semibold text-[#002341] leading-tight m-0 p-0">
+            <h3
+              className="text-3xl md:text-4xl lg:text-[48px] font-semibold text-[#002341] leading-tight m-0 p-0"
+              {...aos(textAos, topAnchor, 150)}
+            >
               {t(heading)}
             </h3>
 
-            <p className="font-inter text-slate-500 text-xs md:text-sm leading-relaxed max-w-sm m-0 p-0">
+            <p
+              className="font-inter text-slate-500 text-xs md:text-sm leading-relaxed max-w-sm m-0 p-0"
+              {...aos(textAos, topAnchor, 300)}
+            >
               {t(description)}
             </p>
           </div>
@@ -85,19 +114,22 @@ export default function ServiceFeatureBlock({
       </div>
 
       {/* LINHA DE LARGURA TOTAL (De ponta a ponta do ecrã) */}
-      {benefitsList && benefitsList.length > 0 && (
+      {hasBenefits && (
         <div className="w-full border-b border-[#DFE3E6] my-16 md:my-24" />
       )}
 
-      {/* Bloco Inferior: Benefícios (Com limite de largura e padding lateral restaurados) */}
-      {benefitsList && benefitsList.length > 0 && (
-        <div
-          className="px-6 md:px-12 lg:px-[112px] max-w-7xl"
-          data-aos="fade-up"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      {/* Bloco Inferior: Benefícios */}
+      {hasBenefits && (
+        <div className="px-6 md:px-12 lg:px-[112px] max-w-7xl">
+          <div
+            id={benefitsAnchor}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-12"
+          >
             <div className="lg:col-span-4">
-              <h3 className="font-geist text-3xl md:text-4xl lg:text-[48px] font-bold text-[#000000] m-0">
+              <h3
+                className="font-geist text-3xl md:text-4xl lg:text-[48px] font-bold text-[#000000] m-0"
+                {...aos("fade-right", benefitsAnchor)}
+              >
                 {t(benefitsTitle)}
               </h3>
             </div>
@@ -108,6 +140,7 @@ export default function ServiceFeatureBlock({
                   <div
                     key={index}
                     className="flex items-start space-x-5 pb-6 mb-[20px] border-b border-[#DFE3E6] w-full lg:max-w-[480px] m-0"
+                    {...aos("fade-left", benefitsAnchor, 150 + index * 120)}
                   >
                     {/* Círculo com o Número */}
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold mt-0.5">
@@ -128,7 +161,14 @@ export default function ServiceFeatureBlock({
               </div>
 
               {ctaText && (
-                <div className="pt-2">
+                <div
+                  className="pt-2"
+                  {...aos(
+                    "fade-up",
+                    benefitsAnchor,
+                    200 + benefitsList.length * 120,
+                  )}
+                >
                   <a
                     href={ctaHref}
                     className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-blue-600 text-white font-medium text-sm hover:bg-blue-700 transition-colors shadow-sm"
