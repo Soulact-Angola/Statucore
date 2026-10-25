@@ -1,4 +1,38 @@
+import { useTranslation } from "react-i18next";
+import { motion, type Variants } from "motion/react"; // se usas framer-motion: "framer-motion"
+
+const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const layerVariants: Variants = {
+  rest: { opacity: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  hover: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease,
+      delayChildren: 0.15,
+      staggerChildren: 0.14,
+    },
+  },
+};
+
+const fromRight: Variants = {
+  rest: { opacity: 0, x: 40, transition: { duration: 0.3 } },
+  hover: { opacity: 1, x: 0, transition: { duration: 0.9, ease } },
+};
+
+const fromBottom: Variants = {
+  rest: { opacity: 0, y: 24, transition: { duration: 0.3 } },
+  hover: { opacity: 1, y: 0, transition: { duration: 0.9, ease } },
+};
+
+const listVariants: Variants = {
+  rest: {},
+  hover: { transition: { staggerChildren: 0.09 } },
+};
+
 export default function OurServicesSection() {
+  const { t } = useTranslation();
   const services = [
     {
       id: 1,
@@ -12,7 +46,8 @@ export default function OurServicesSection() {
         "Virtualização",
       ],
       imageSrc: "/infra.png",
-      hoverBg: "bg-[#E2E8F0]", // Cor de fundo no hover semelhante à imagem
+      hoverBg: "bg-[#D0D9E6]",
+      textColor: "text-[#3A3B3C]",
     },
     {
       id: 2,
@@ -21,7 +56,8 @@ export default function OurServicesSection() {
         "Oferecemos suporte técnico especializado para responder rapidamente a incidentes, pedidos e necessidades do dia a dia da sua empresa.",
       itemsList: ["Helpdesk", "Service Desk", "GLPI", "Gestão de Incidentes"],
       imageSrc: "/suporte.png",
-      hoverBg: "bg-[#E2E8F0]",
+      hoverBg: "bg-[#B59478]",
+      textColor: "text-[#030303]",
     },
     {
       id: 3,
@@ -33,18 +69,27 @@ export default function OurServicesSection() {
         "Google Workspace",
         "Backup Cloud",
         "Migrações",
+        "Business Mail",
       ],
       imageSrc: "/cloud.png",
-      hoverBg: "bg-[#E5D4C0]", // Tom amarelado/bege da imagem
+      hoverBg: "bg-[#9B9C9C]",
+      textColor: "text-[#1A1A1A]",
     },
     {
       id: 4,
       title: "Segurança",
       description:
         "Reduzimos riscos e protegemos os seus sistemas, dados e utilizadores através de uma abordagem integrada de cibersegurança.",
-      itemsList: ["Firewall", "Antivírus Corporativo", "MFA", "Auditorias"],
+      itemsList: [
+        "Firewall",
+        "Antivírus Corporativo",
+        "MFA",
+        "Auditorias",
+        "CCTV",
+      ],
       imageSrc: "/security.png",
-      hoverBg: "bg-[#E5D4C0]",
+      hoverBg: "bg-[#B6A493]",
+      textColor: "text-[#1A1A1A]",
     },
   ];
 
@@ -69,22 +114,22 @@ export default function OurServicesSection() {
         </svg>
       </div>
 
-      {/* Container flexível substituído por w-full e padding responsivo (incluindo o lg:px-28) */}
+      {/* Container flexível com padding responsivo (incluindo o lg:px-28) */}
       <div className="w-full px-6 md:px-16 lg:px-28">
         <div
           className="text-center max-w-2xl mx-auto mb-14 space-y-4"
           data-aos="fade-up"
         >
           <h2 className="font-poppins text-3xl sm:text-4xl font-bold lg:text-[48px] text-[#000211] tracking-tight">
-            Os nossos serviços
+            {t("Os nossos serviços")}
           </h2>
           <p
             style={{ lineHeight: "1.4" }}
             className="font-normal pt-[24px] mx-auto lg:max-w-[467px] text-[#000211] lg:text-[16px] text-base md:text-lg leading-relaxed"
           >
-            Combinamos infraestrutura, suporte, cloud e segurança para criar um
-            ambiente tecnológico confiável, preparado para as exigências do seu
-            negócio.
+            {t(
+              "Integramos infraestrutura, suporte, cloud e segurança para garantir um ambiente tecnológico confiável.",
+            )}
           </p>
         </div>
 
@@ -98,61 +143,82 @@ export default function OurServicesSection() {
             >
               <img
                 src={service.imageSrc}
-                alt={service.title}
-                className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 group-hover:opacity-0"
+                alt={t(service.title)}
+                className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 group-hover:opacity-0"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/30 transition-opacity duration-500 group-hover:opacity-0" />
 
-              <div className="relative z-10 space-y-4 transition-opacity duration-300 group-hover:opacity-0 group-hover:pointer-events-none">
-                <h3 className="font-poppins lg:text-[24px] text-2xl font-bold text-white tracking-tight">
-                  {service.title}
+              {/* Overlay uniforme a 40% */}
+              <div className="absolute inset-0 bg-[#0B1B3D]/40 transition-opacity duration-700 group-hover:opacity-0" />
+
+              {/* Estado normal: título + lista alinhados ao topo */}
+              <div className="relative z-10 space-y-3 transition-opacity duration-300 group-hover:opacity-0 group-hover:pointer-events-none">
+                <h3 className="font-poppins text-2xl font-bold text-white tracking-tight">
+                  {t(service.title)}
                 </h3>
 
-                <ul
-                  style={{ lineHeight: "1.1" }}
-                  className="space-y-2 font-poppins text-[#FFFFFF] text-sm"
-                >
+                <ul className="space-y-1 font-poppins text-white text-base leading-tight">
                   {service.itemsList.map((item, idx) => (
-                    <li key={idx} className="flex items-center space-x-2">
-                      <span className="w-1.5 h-1.5 bg-white rounded-full inline-block" />
-                      <span className="lg:text-[16px]">{item}</span>
+                    <li key={idx} className="flex items-center gap-2">
+                      <span className="w-1 h-1 bg-white rounded-full shrink-0" />
+                      <span>{t(item)}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div
-                className={`absolute inset-0 ${service.hoverBg} p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20`}
+              {/* Estado hover */}
+              <motion.div
+                initial="rest"
+                animate="rest"
+                whileHover="hover"
+                variants={layerVariants}
+                className={`absolute inset-0 ${service.hoverBg} ${service.textColor} p-6 flex flex-col justify-between z-20`}
               >
-                <div className="space-y-4">
-                  <h3 className="font-poppins text-2xl font-bold text-[#0B1B3D] tracking-tight">
-                    {service.title}
-                  </h3>
-
-                  <p className="font-inter text-slate-700 text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-
-                  <ul className="space-y-2 font-inter text-slate-800 text-sm">
-                    {service.itemsList.map((item, idx) => (
-                      <li key={idx} className="flex items-center space-x-2">
-                        <span className="w-1.5 h-1.5 bg-[#0B1B3D] rounded-full inline-block" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="pt-4">
-                  <a
-                    href="#saiba-mais"
-                    className="inline-flex items-center text-[#0B1B3D] font-semibold text-sm hover:underline space-x-2"
+                <div>
+                  <motion.h3
+                    variants={fromRight}
+                    className="font-poppins text-2xl font-bold tracking-tight"
                   >
-                    <span>Saiba mais</span>
-                    <span>→</span>
-                  </a>
+                    {t(service.title)}
+                  </motion.h3>
+
+                  <motion.p
+                    variants={fromRight}
+                    className="font-inter text-sm leading-relaxed mt-10"
+                  >
+                    {t(service.description)}
+                  </motion.p>
+
+                  <motion.ul
+                    variants={listVariants}
+                    className="space-y-2 font-inter text-sm mt-8 pl-2"
+                  >
+                    {service.itemsList.map((item, idx) => (
+                      <motion.li
+                        key={idx}
+                        variants={fromRight}
+                        className="flex items-center gap-2"
+                      >
+                        <span className="w-1.5 h-1.5 bg-current rounded-full shrink-0" />
+                        <span>{t(item)}</span>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
                 </div>
-              </div>
+
+                <div className="flex justify-end">
+                  <motion.a
+                    variants={fromBottom}
+                    href="#saiba-mais"
+                    className="inline-flex items-center gap-3 font-inter font-semibold text-sm"
+                  >
+                    <span className="underline underline-offset-4">
+                      {t("Saiba mais")}
+                    </span>
+                    <span>→</span>
+                  </motion.a>
+                </div>
+              </motion.div>
             </div>
           ))}
         </div>

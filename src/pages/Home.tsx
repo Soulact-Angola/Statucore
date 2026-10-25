@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import AboutSummary from "../components/AboutSummary";
 import Button from "../components/Button";
 import CtaBanner from "../components/CtaBanner";
@@ -6,8 +7,10 @@ import HeroBanner from "../components/HeroBanner";
 import OurServicesSection from "../components/OurServicesSection";
 import ServiceFeatureBlock from "../components/ServiceFeatureBlock";
 import TargetAudienceSection from "../components/TargetAudienceSection";
+import ParallaxSections from "../components/ParallaxSections";
 
 export default function Home() {
+  const { t } = useTranslation();
   const mspBenefits = [
     {
       title: "Monitorização 24/7",
@@ -32,17 +35,15 @@ export default function Home() {
   ];
   return (
     <>
-      <HeroBanner
-        title={
-          <>
-            Tecnologia &amp; <br />
-            Serviços
-          </>
-        }
+      <ParallaxSections />
+
+      {/* <HeroBanner
+        title={<span className="block max-w-xl">Tecnologia & Serviços</span>}
         subtitle="O núcleo da sua operação tecnológica"
         imageSrc="/home.png"
+        isHome={true}
         buttons={[{ title: "Falar com um especialista", href: "/contact" }]}
-      />
+      /> */}
 
       <AboutSummary variant="home" />
 
@@ -50,7 +51,7 @@ export default function Home() {
         className="text-[#012120] lg:text-[48px] font-semibold text-3xl font-bold text-center mb-8"
         data-aos="fade-up"
       >
-        Destaques
+        {t("Destaques")}
       </h1>
       <FeatureCards variant="home" />
 
@@ -157,12 +158,7 @@ export default function Home() {
       <TargetAudienceSection />
 
       <CtaBanner
-        title={
-          <>
-            A segurança não pode ser <br />
-            uma preocupação para depois.
-          </>
-        }
+        title="A segurança é uma prioridade, não uma opção para depois."
         description="Ameaças digitais podem comprometer dados, sistemas e operações. Ajudamos a sua empresa a reduzir riscos e a construir uma infraestrutura mais protegida."
         imageSrc="/seguranca-bg.png" // Substitui pelo caminho da tua imagem
         imageAlt="Segurança de TI"
@@ -179,7 +175,9 @@ export default function Home() {
             style={{ lineHeight: "1.2" }}
             className="lg:max-w-[1079px] text-3xl sm:text-4xl md:text-5xl lg:text-[72px] font-semibold text-[#000211] leading-tight tracking-tight m-0 mx-auto pb-[24px]"
           >
-            A tecnologia da sua empresa está preparada para o próximo desafio?
+            {t(
+              "A tecnologia da sua empresa está preparada para o próximo desafio?",
+            )}
           </h2>
 
           {/* Descrição */}
@@ -187,8 +185,9 @@ export default function Home() {
             style={{ lineHeight: "1.2" }}
             className="font-medium  text-[#434343] text-sm md:text-base lg:text-[24px] lg:max-w-[627px]  mx-auto leading-relaxed m-0 pb-[32px]"
           >
-            Fale com a nossa equipa. Vamos entender as suas necessidades e
-            encontrar a solução mais adequada para o seu negócio.
+            {t(
+              "Fale com a nossa equipa. Vamos entender as suas necessidades e encontrar a solução mais adequada para o seu negócio.",
+            )}
           </p>
 
           {/* Contentor dos Botões */}

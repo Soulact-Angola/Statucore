@@ -1,6 +1,14 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  type NavLinkRenderProps,
+} from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const navigationLinkClass = ({ isActive }: { isActive: boolean }) =>
+// Tipagem para a função de classe do NavLink
+const navigationLinkClass = ({ isActive }: NavLinkRenderProps) =>
   `relative inline-flex items-center px-3 py-5 text-[15px] font-medium transition-colors after:absolute after:inset-x-3 after:bottom-5 after:h-0.5 after:origin-left after:bg-blue-700 after:transition-transform after:content-[''] ${
     isActive
       ? "text-[#0049E3] after:scale-x-100"
@@ -8,24 +16,121 @@ const navigationLinkClass = ({ isActive }: { isActive: boolean }) =>
   }`;
 
 const services = [
-  { label: "Infraestrutura", path: "/services/infrastructure" },
-  { label: "Suporte Técnico", path: "/services/support" },
-  { label: "Cloud", path: "/services/cloud" },
-  { label: "Segurança", path: "/services/security" },
+  { label: "navigation.infrastructure", path: "/services/infrastructure" },
+  { label: "navigation.support", path: "/services/support" },
+  { label: "navigation.cloud", path: "/services/cloud" },
+  { label: "navigation.security", path: "/services/security" },
 ];
+
+const availableLanguages = [
+  { code: "pt", label: "Português" },
+  { code: "fr", label: "Français" },
+  { code: "en", label: "English" },
+] as const;
 
 export default function Header() {
   const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const activeLanguage = i18n.resolvedLanguage?.split("-")[0] ?? "pt";
   const isServicesActive = location.pathname.startsWith("/services");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Tipagem do useRef para o elemento HTMLDetailsElement
+  const servicesMenuRef = useRef<HTMLDetailsElement | null>(null);
+  const servicesLabelRef = useRef<HTMLSpanElement | null>(null);
+  const servicesDropdownRef = useRef<HTMLDivElement | null>(null);
+  const servicesItemsRef = useRef<HTMLDivElement | null>(null);
+  const servicesArrowRef = useRef<HTMLSpanElement | null>(null);
+
+  const alignServicesDropdown = () => {
+    const label = servicesLabelRef.current;
+    const dropdown = servicesDropdownRef.current;
+    const items = servicesItemsRef.current;
+    const arrow = servicesArrowRef.current;
+    const firstLink = items?.querySelector("a");
+
+    if (!label || !dropdown || !items || !arrow || !firstLink) {
+      return;
+    }
+
+    items.style.transform = "";
+    const labelRect = label.getBoundingClientRect();
+    const dropdownRect = dropdown.getBoundingClientRect();
+    const linkRect = firstLink.getBoundingClientRect();
+    const linkPadding = Number.parseFloat(
+      getComputedStyle(firstLink).paddingLeft,
+    );
+    const textLeft = linkRect.left + linkPadding;
+    const labelCenter = labelRect.left + labelRect.width / 2;
+
+    items.style.transform = `translateX(${labelRect.left - textLeft}px)`;
+    arrow.style.left = `${labelCenter - dropdownRect.left - 6}px`;
+  };
+
+  // Estado para controlar o scroll
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    const closeOnOutsideClick = (event: MouseEvent | PointerEvent) => {
+      if (
+        servicesMenuRef.current &&
+        !servicesMenuRef.current.contains(event.target as Node)
+      ) {
+        servicesMenuRef.current.open = false;
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        if (servicesMenuRef.current) {
+          servicesMenuRef.current.open = false;
+        }
+        setMobileMenuOpen(false);
+      }
+    };
+    const alignOnResize = () => {
+      if (servicesMenuRef.current?.open) {
+        alignServicesDropdown();
+      }
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("resize", alignOnResize);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("resize", alignOnResize);
+    };
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-      <div className=" px-28 flex w-full  items-center justify-between min-h-18 py-3 lg:py-0">
-        <div className="flex items-center gap-x-22">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out bg-white border-b border-gray-200 ${
+        scrolled ? "shadow-md py-1" : "py-0"
+      }`}
+    >
+      <div
+        className={`flex w-full items-center justify-between px-4 transition-all duration-500 sm:px-6 lg:px-10 xl:px-28 ${
+          scrolled ? "min-h-14 py-2" : "min-h-18 py-3 lg:py-0"
+        }`}
+      >
+        <div className="flex min-w-0 items-center gap-4 xl:gap-10">
           <Link
             to="/"
-            aria-label="StatuCore, início"
-            className="flex h-9 w-46.75 shrink-0 items-center"
+            aria-label={t("StatuCore, início")}
+            className="flex items-center"
           >
             <svg
               width="187"
@@ -93,15 +198,27 @@ export default function Header() {
             </svg>
           </Link>
 
-          <nav aria-label="Navegação principal" className="hidden lg:block">
+          <nav
+            aria-label={t("header.primaryNavigation")}
+            className="hidden xl:block"
+          >
             <ul className="flex items-center gap-1">
               <li>
                 <NavLink to="/" end className={navigationLinkClass}>
-                  Início
+                  {t("navigation.home")}
                 </NavLink>
               </li>
               <li>
-                <details className="group relative">
+                {/* Alterado para static para servir de referência para o absolute do dropdown centralizado */}
+                <details
+                  ref={servicesMenuRef}
+                  className="group static"
+                  onToggle={() => {
+                    if (servicesMenuRef.current?.open) {
+                      window.requestAnimationFrame(alignServicesDropdown);
+                    }
+                  }}
+                >
                   <summary
                     className={`relative flex cursor-pointer list-none items-center gap-2 px-3 py-5 text-[15px] font-medium transition-colors after:absolute after:inset-x-3 after:bottom-5 after:h-0.5 after:origin-left after:bg-blue-700 after:transition-transform after:content-[''] ${
                       isServicesActive
@@ -109,78 +226,249 @@ export default function Header() {
                         : "text-[#010F21] after:scale-x-0 hover:text-[#0049E3] hover:after:scale-x-100"
                     }`}
                   >
-                    Serviços
+                    <span ref={servicesLabelRef}>
+                      {t("navigation.services")}
+                    </span>
                     <span
                       aria-hidden="true"
                       className="size-1.5 -translate-y-0.5 rotate-45 border-b border-r border-current"
                     />
                   </summary>
-                  <div className="absolute left-0 top-full z-20 min-w-52 rounded border border-gray-200 bg-white py-1 shadow-lg">
-                    <Link
-                      to="/services"
-                      className="block px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+
+                  {/* Dropdown centralizado em relação à barra de navegação/cabeçalho */}
+                  <div
+                    ref={servicesDropdownRef}
+                    className="absolute left-1/2 -translate-x-1/2 top-full z-20 mt-3 w-[90vw] max-w-none border-t border-b border-gray-200 bg-white py-6 px-4 shadow-lg ring-1 ring-black/5"
+                  >
+                    <span
+                      ref={servicesArrowRef}
+                      aria-hidden="true"
+                      className="absolute -top-1.5 size-3 rotate-45 border-l border-t border-gray-200 bg-white"
+                    />
+                    <div
+                      ref={servicesItemsRef}
+                      className="flex flex-col items-start gap-3"
                     >
-                      Todos os serviços
-                    </Link>
-                    {services.map((service) => (
-                      <NavLink
-                        key={service.path}
-                        to={service.path}
-                        className={({ isActive }) =>
-                          `block px-4 py-2 text-sm ${
-                            isActive
-                              ? "bg-[#E3E2E2] text-[#010822]"
-                              : "text-gray-700 hover:bg-gray-50"
-                          }`
-                        }
-                      >
-                        {service.label}
-                      </NavLink>
-                    ))}
+                      {services.map((service) => (
+                        <NavLink
+                          key={service.path}
+                          to={service.path}
+                          onClick={() => {
+                            if (servicesMenuRef.current) {
+                              servicesMenuRef.current.open = false;
+                            }
+                          }}
+                          className={({ isActive }: NavLinkRenderProps) =>
+                            `block rounded-md px-3 py-2 text-[15px] font-medium transition-colors ${
+                              isActive
+                                ? "bg-gray-100 text-[#0049E3]"
+                                : "text-gray-700 hover:bg-gray-50 hover:text-[#0049E3]"
+                            }`
+                          }
+                        >
+                          {t(service.label)}
+                        </NavLink>
+                      ))}
+                    </div>
                   </div>
                 </details>
               </li>
               <li>
                 <NavLink to="/about" className={navigationLinkClass}>
-                  Sobre nós
+                  {t("navigation.about")}
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/contact" className={navigationLinkClass}>
-                  Contato
+                  {t("navigation.contact")}
                 </NavLink>
               </li>
             </ul>
           </nav>
         </div>
 
-        {/* Bloco direito: Idioma e Botão de Contato */}
-        <div className="flex items-center gap-5">
-          <span
-            aria-label="Idioma: português"
-            className="hidden items-center gap-2 text-sm font-semibold text-gray-900 sm:flex"
-          >
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="size-5"
-              stroke="currentColor"
-              strokeWidth="1.8"
+        {/* Bloco direito mantido */}
+        <div className="hidden shrink-0 items-center gap-5 xl:flex">
+          <details className="relative hidden sm:block">
+            <summary
+              aria-label={t("header.changeLanguage")}
+              className="flex cursor-pointer list-none items-center gap-2 rounded-md px-2 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-100"
             >
-              <circle cx="12" cy="12" r="9" />
-              <path d="M3.5 12h17M12 3c2.2 2.4 3.2 5.4 3.2 9s-1 6.6-3.2 9c-2.2-2.4-3.2-5.4-3.2-9s1-6.6 3.2-9Z" />
-            </svg>
-            PT
-          </span>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="size-5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3.5 12h17M12 3c2.2 2.4 3.2 5.4 3.2 9s-1 6.6-3.2 9c-2.2-2.4-3.2-5.4-3.2-9s1-6.6 3.2-9Z" />
+              </svg>
+              {activeLanguage.toUpperCase()}
+            </summary>
+            <div className="absolute right-0 top-full z-30 mt-2 min-w-36 rounded-md border border-gray-200 bg-white p-1 shadow-lg">
+              {availableLanguages.map((language) => (
+                <button
+                  key={language.code}
+                  type="button"
+                  aria-pressed={activeLanguage === language.code}
+                  onClick={() => void i18n.changeLanguage(language.code)}
+                  className={`block w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100 ${
+                    activeLanguage === language.code
+                      ? "font-semibold text-[#0049E3]"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {language.label}
+                </button>
+              ))}
+            </div>
+          </details>
+
           <Link
             to="/contact"
             className="rounded-full bg-blue-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-800"
           >
-            Contate-nos
+            {t("Contate-nos")}
           </Link>
         </div>
+
+        <button
+          type="button"
+          aria-label={
+            mobileMenuOpen ? t("header.closeMenu") : t("header.openMenu")
+          }
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+          className="inline-flex size-11 shrink-0 items-center justify-center rounded-md text-[#010F21] transition-colors hover:bg-gray-100 xl:hidden"
+        >
+          <span className="sr-only">
+            {mobileMenuOpen ? t("header.closeMenu") : t("header.openMenu")}
+          </span>
+          <span aria-hidden="true" className="relative block h-5 w-6">
+            <span
+              className={`absolute left-0 top-0 block h-0.5 w-6 bg-current transition-transform ${
+                mobileMenuOpen ? "translate-y-[9px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[9px] block h-0.5 w-6 bg-current transition-opacity ${
+                mobileMenuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[18px] block h-0.5 w-6 bg-current transition-transform ${
+                mobileMenuOpen ? "-translate-y-[9px] -rotate-45" : ""
+              }`}
+            />
+          </span>
+        </button>
       </div>
+
+      <nav
+        id="mobile-navigation"
+        aria-label={t("header.primaryNavigation")}
+        className={`absolute left-0 top-full w-full overflow-y-auto border-t border-gray-200 bg-white px-4 shadow-lg transition-[opacity,transform,visibility] duration-200 sm:px-6 xl:hidden ${
+          scrolled ? "h-[calc(100dvh-4rem)]" : "h-[calc(100dvh-4.5rem)]"
+        } ${
+          mobileMenuOpen
+            ? "visible translate-y-0 opacity-100"
+            : "invisible -translate-y-2 opacity-0"
+        }`}
+      >
+        <ul className="mx-auto max-w-[1600px] divide-y divide-gray-100 py-2">
+          <li>
+            <NavLink
+              to="/"
+              end
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `block py-4 text-[15px] font-medium ${isActive ? "text-[#0049E3]" : "text-[#010F21]"}`
+              }
+            >
+              {t("navigation.home")}
+            </NavLink>
+          </li>
+          <li>
+            <details className="group">
+              <summary
+                className={`flex cursor-pointer list-none items-center justify-between py-4 text-[15px] font-medium ${isServicesActive ? "text-[#0049E3]" : "text-[#010F21]"}`}
+              >
+                {t("navigation.services")}
+                <span
+                  aria-hidden="true"
+                  className="size-2 rotate-45 border-b border-r border-current transition-transform group-open:-rotate-[135deg]"
+                />
+              </summary>
+              <ul className="space-y-1 pb-3 pl-4">
+                {services.map((service) => (
+                  <li key={service.path}>
+                    <NavLink
+                      to={service.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `block py-2 text-sm ${isActive ? "text-[#0049E3]" : "text-gray-700"}`
+                      }
+                    >
+                      {t(service.label)}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+          <li>
+            <NavLink
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `block py-4 text-[15px] font-medium ${isActive ? "text-[#0049E3]" : "text-[#010F21]"}`
+              }
+            >
+              {t("navigation.about")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `block py-4 text-[15px] font-medium ${isActive ? "text-[#0049E3]" : "text-[#010F21]"}`
+              }
+            >
+              {t("navigation.contact")}
+            </NavLink>
+          </li>
+          <li className="flex items-center justify-between py-4">
+            <span className="text-[15px] font-medium text-[#010F21]">
+              {t("header.language")}
+            </span>
+            <div
+              role="group"
+              aria-label={t("header.changeLanguage")}
+              className="flex gap-1"
+            >
+              {availableLanguages.map((language) => (
+                <button
+                  key={language.code}
+                  type="button"
+                  aria-pressed={activeLanguage === language.code}
+                  onClick={() => void i18n.changeLanguage(language.code)}
+                  className={`rounded px-2 py-1 text-sm ${
+                    activeLanguage === language.code
+                      ? "bg-blue-50 font-semibold text-[#0049E3]"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {language.code.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 }
